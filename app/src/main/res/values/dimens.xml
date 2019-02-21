@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marging_start">16dp</dimen>
+    <dimen name="marging_end">16dp</dimen>
+    <dimen name="marging_buttom">16dp</dimen>
+    <dimen name="marging_top">24dp</dimen>
+
+    <dimen name="Texte_history">5sp</dimen>
+
+</resources>

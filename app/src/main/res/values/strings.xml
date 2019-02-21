@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm_button">Valider</string>
+    <string name="app_name">MoodTracker</string>
+    <string name="cancel_button">Annuler</string>
+    <string name="ok_button">Valider</string>
+    <string name="hier">Hier</string>
+    <string name="avant_hier">Avant-hier</string>
+    <string name="trois_jour">Il y a trois jours</string>
+    <string name="quatre_jour">Il y a quatre jours</string>
+    <string name="cinq_jour">Il y a cinq jours</string>
+    <string name="six_jour">Il y a six jours</string>
+    <string name="une_semaine">Il y a une semaine</string>
+    <string name="historique_empty">Historique Vide</string>
+    <string name="entrer_commentaire">Entrer un comment</string>
+    <string name="commentaire_titre">Commentaire</string>
+</resources>
