@@ -17,6 +17,16 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private static String mood ="";
     private static String comment ="";
 
+    //*****counteur mood*******
+    public int countMood =0;
+
+    //***********Constant String Mood*************************
+    private final String SUPER_BONNE_HUMEUR = "Super bonne humeur";
+    private final String BONNE_HUMEUR = "Bonne humeur";
+    private final String HUMEUR_NORMALE = "Humeur normale";
+    private final String MAUVAISE_HUMEUR = "Mauvaise humeur";
+    private  final String TRES_MAUVAISE_HUMEUR = "Très mauvaise humeur";
+
     //*********Views**************
     private ImageView mImageViewSmiley;
     private ConstraintLayout mConstraintLayout;
@@ -105,11 +115,82 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     }
 
+    /**
+     * informed event when the finger stay on the screen with this position of beginning motion, of end motion and speed movement
+     * @param event1 position x and Y of start of touch
+     * @param event2 position x and Y of end dof touch
+     * @param velocityX  speed x
+     * @param velocityY  speed y
+     * @return
+     */
     @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
+    public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+        float startEventVertical=event1.getY(); // first event movement detect of screen
+        float endEventVertical=event2.getY(); //event movement launch onFling
+
+        float flingToUpOrDown = (startEventVertical - endEventVertical);
+        checkMotion(flingToUpOrDown); //increments or decrements countMood
+        switchMood();// change mood depending countMood
+        return true;
     }
 
-    public void buttonHistory(View view) {
+    /**
+     * check mood of smiley from 1 to -3
+     * (1 Super Bonne Humeur) - (-3 Très mauvaise mood)
+     * count increments if up and decrements if down
+     * @param verticalFlingEvent result calcul fling allowing if define whe ou vers le basther up or down movement
+     */
+    private void checkMotion(float verticalFlingEvent) {
+        if(verticalFlingEvent > 0){
+            if(countMood == 1) {
+            }else{
+                countMood++;
+            }
+        }else {
+            if(countMood == -3) {
+            }else {
+                countMood--;
+            }
+        }
+    }
+
+    /**
+     * if countMood change, adapte image, backgroundcolor and initializes mood variable
+     *
+     */
+    private void switchMood() {
+        switch (countMood){
+            case 1:
+                mood = SUPER_BONNE_HUMEUR;
+                mImageViewSmiley.setImageResource(R.drawable.smiley_super_happy);
+                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
+                break;
+            case 0:
+                mood = BONNE_HUMEUR;
+                mImageViewSmiley.setImageResource(R.drawable.smiley_happy);
+                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
+                break;
+            case -1:
+                mood = HUMEUR_NORMALE;
+                mImageViewSmiley.setImageResource(R.drawable.smiley_normal);
+                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
+                break;
+            case -2:
+                mood = MAUVAISE_HUMEUR;
+                mImageViewSmiley.setImageResource(R.drawable.smiley_disappointed);
+                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
+                break;
+            case -3:
+                mood = TRES_MAUVAISE_HUMEUR;
+                mImageViewSmiley.setImageResource(R.drawable.smiley_sad);
+                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
+                break;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        mGestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }
