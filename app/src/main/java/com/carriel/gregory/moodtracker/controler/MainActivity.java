@@ -12,6 +12,10 @@ import android.widget.Toast;
 import com.carriel.gregory.moodtracker.R;
 import com.carriel.gregory.moodtracker.controler.utils.CustumDialog;
 
+import java.util.Date;
+
+import baseSQL.SaveMoodData;
+
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     private final String TAG= "MessageMood:Main";
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private GestureDetector mGestureDetector;
     private CustumDialog mCustumDialog;
 
+    //*******access point to save & restore data to the DB
+    private SaveMoodData mSaveMoodData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mConstraintLayout=findViewById(R.id.activity_main_layout);
         mGestureDetector= new GestureDetector(this,this);
         mCustumDialog= new CustumDialog(this);
+        mSaveMoodData=SaveMoodData.getInstance(this);
     }
 
     /**
@@ -65,6 +73,10 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
                 //*****keep comment***********
                 comment = mCustumDialog.getEditTextSubTitle().getText().toString();
+
+                //*****record data******
+                mSaveMoodData.recordMood(mood, comment, new Date());
+
                 //******hide popup*************
                 mCustumDialog.hide();
 

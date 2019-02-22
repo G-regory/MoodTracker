@@ -20,9 +20,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private final String TAG = "MoodMessage :MySql";
     private SQLiteDatabase mSQLiteDatabase;
 
-    private static final int VERSION_DB = 2;
-    private static final String DB_NAME = "history.db";
-    private final String TABLE_NAME = "mood";
+    private static final int VERSION_DB = 1;
+    private static final String DB_NAME = "HistoryMood.db";
+    private final String TABLE_NAME = "Mood";
     private final String COLUMN_ID = "_id";
     private final String COLUMN_DAY = "_date";
     private final String COLUMN_MOOD = "smiley";
@@ -210,8 +210,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         mSQLiteDatabase=getReadableDatabase();
         String StrSQL="select * from "+TABLE_NAME+" where exists (select * from "+TABLE_NAME+")";
 
-        Cursor mcursor=mSQLiteDatabase.rawQuery(StrSQL,null );
-        int id=mcursor.getCount();
+        Cursor mCursor=mSQLiteDatabase.rawQuery(StrSQL,null );
+        int id=mCursor.getCount();
 
         return id;
     }
