@@ -1,5 +1,6 @@
 package com.carriel.gregory.moodtracker.controler;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -187,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 break;
         }
     }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
