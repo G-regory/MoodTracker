@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private static String comment ="";
 
     //*****counteur mood*******
-    public int countMood =0;
+    private int countMood =0;
 
     //***********Constant String Mood*************************
     private final String SUPER_BONNE_HUMEUR = "Super bonne humeur";
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
     }
 
     private void init() {
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 comment = mCustumDialog.getEditTextSubTitle().getText().toString();
                 //******hide popup*************
                 mCustumDialog.hide();
-
 
                 //***affiche msg Toat*********
                 Toast.makeText(getApplicationContext(),"Commentaire enregistré",Toast.LENGTH_LONG).show();
@@ -112,9 +110,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     }
 
     @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
+    public void onLongPress(MotionEvent e) {}
 
     /**
      * informed event when the finger stay on the screen with this position of beginning motion, of end motion and speed movement
@@ -188,8 +184,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 break;
         }
     }
-
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
