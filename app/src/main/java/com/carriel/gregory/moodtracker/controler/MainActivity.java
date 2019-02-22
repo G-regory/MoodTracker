@@ -1,6 +1,5 @@
 package com.carriel.gregory.moodtracker.controler;
 
-import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.carriel.gregory.moodtracker.R;
+import com.carriel.gregory.moodtracker.controler.utils.CustumDialog;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 

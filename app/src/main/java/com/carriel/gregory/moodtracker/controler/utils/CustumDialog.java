@@ -1,4 +1,4 @@
-package com.carriel.gregory.moodtracker.controler;
+package com.carriel.gregory.moodtracker.controler.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
