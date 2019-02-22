@@ -1,6 +1,7 @@
 package com.carriel.gregory.moodtracker.controler;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,12 +22,16 @@ import com.carriel.gregory.moodtracker.controler.baseSQL.SaveMoodData;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
+    //*******LOG********************
     private final String TAG= "MessageMood:Main";
-    private static String mood ="";
-    private static String comment ="";
 
-    //*****counteur mood*******
-    private int countMood =0;
+    private static String mMood ="";
+    private static String mComment ="";
+    private SharedPreferences mSharedPreferences;
+    private GestureDetector mGestureDetector;
+
+    //*****counteur mMood*******
+    private int mCountMood =0;
 
     //***********Constant String Mood*************************
     private final String SUPER_BONNE_HUMEUR = "Super bonne humeur";
@@ -34,11 +39,12 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private final String HUMEUR_NORMALE = "Humeur normale";
     private final String MAUVAISE_HUMEUR = "Mauvaise humeur";
     private  final String TRES_MAUVAISE_HUMEUR = "Très mauvaise humeur";
+    private final String SHARED_COUNTMOOD="mCountMood";
+    private final String SHARED_COMMENT="mComment";
 
     //*********Views**************
     private ImageView mImageViewSmiley;
     private ConstraintLayout mConstraintLayout;
-    private GestureDetector mGestureDetector;
     private CustumDialog mCustumDialog;
 
     //*******access point to save & restore data to the DB
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mGestureDetector= new GestureDetector(this,this);
         mCustumDialog= new CustumDialog(this);
         mSaveMoodData=SaveMoodData.getInstance(this);
+        mSharedPreferences=getPreferences(MODE_PRIVATE);
     }
 
     /**
@@ -67,23 +74,23 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
         /**
          * events validate button
-         * record comment, mood and date, show msg toast and hide popup
+         * record mComment, mMood and date, show msg toast and hide popup
          */
         mCustumDialog.getOkButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //*****keep comment***********
-                comment = mCustumDialog.getEditTextSubTitle().getText().toString();
+                //*****keep mComment***********
+                mComment = mCustumDialog.getEditTextSubTitle().getText().toString();
 
                 //*****record data******
-                mSaveMoodData.recordMood(mood, comment, new Date());
+                mSaveMoodData.recordMood(mMood, mComment, new Date());
 
                 //******hide popup*************
                 mCustumDialog.hide();
 
                 //***affiche msg Toat*********
-                Toast.makeText(getApplicationContext(),"Commentaire enregistré",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Commentaire enregistré",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -94,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mCustumDialog.getCancelButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Commentaire annulé",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Commentaire annulé",Toast.LENGTH_SHORT).show();
                 //***close popup*******
                 mCustumDialog.cancel();
             }
@@ -138,59 +145,59 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         float endEventVertical=event2.getY(); //event movement launch onFling
 
         float flingToUpOrDown = (startEventVertical - endEventVertical);
-        checkMotion(flingToUpOrDown); //increments or decrements countMood
-        switchMood();// change mood depending countMood
+        checkMotion(flingToUpOrDown); //increments or decrements mCountMood
+        switchMood();// change mMood depending mCountMood
         return true;
     }
 
     /**
-     * check mood of smiley from 1 to -3
-     * (1 Super Bonne Humeur) - (-3 Très mauvaise mood)
+     * check mMood of smiley from 1 to -3
+     * (1 Super Bonne Humeur) - (-3 Très mauvaise mMood)
      * count increments if up and decrements if down
      * @param verticalFlingEvent result calcul fling allowing if define whe ou vers le basther up or down movement
      */
     private void checkMotion(float verticalFlingEvent) {
         if(verticalFlingEvent > 0){
-            if(countMood == 1) {
+            if(mCountMood == 1) {
             }else{
-                countMood++;
+                mCountMood++;
             }
         }else {
-            if(countMood == -3) {
+            if(mCountMood == -3) {
             }else {
-                countMood--;
+                mCountMood--;
             }
         }
     }
 
     /**
-     * if countMood change, adapte image, backgroundcolor and initializes mood variable
+     * if mCountMood change, adapte image, backgroundcolor and initializes mMood variable
      *
      */
     private void switchMood() {
-        switch (countMood){
+        switch (mCountMood){
             case 1:
-                mood = SUPER_BONNE_HUMEUR;
+                mMood = SUPER_BONNE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_super_happy);
                 mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
                 break;
             case 0:
-                mood = BONNE_HUMEUR;
+                mMood = BONNE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_happy);
                 mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
                 break;
             case -1:
-                mood = HUMEUR_NORMALE;
+                mMood = HUMEUR_NORMALE;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_normal);
                 mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
                 break;
             case -2:
-                mood = MAUVAISE_HUMEUR;
+                mMood = MAUVAISE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_disappointed);
                 mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
                 break;
             case -3:
-                mood = TRES_MAUVAISE_HUMEUR;
+                mMood = TRES_MAUVAISE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_sad);
                 mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
                 break;
@@ -214,20 +221,36 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     @Override
     protected void onResume() {
-        controlMood(); //check if current mood
+        controlMood(); //check if current mMood
         super.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        mSharedPreferences.edit().putInt(SHARED_COUNTMOOD, mCountMood).apply(); //save number countMood
+        if(!mMood.equals(BONNE_HUMEUR)){  //if current mood  isn't default mood
+            mSaveMoodData.recordMood(mMood, mComment, new Date());  //record current data in DB
+        }
+        super.onPause();
+    }
+
     /**
-     * check current mood and current comment
+     * check current mMood and current mComment
      */
     private void controlMood() {
-        if(MyToolsDate.compareDate(new Date(), mSaveMoodData.getLastDate()) != 0){
-            Log.d(TAG, "controlMood: la date est différente donc restart humeur");
-            countMood=0;
-            mCustumDialog.setEditTextSubTitle("");
-            switchMood();
+        int numberID=mSaveMoodData.returnNumberId();  //recover number ID from table
+        int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,0);  //recover last Mood save and if don't find recover 0
 
+        if(numberID >0 || countMood != 0){  //check if data stored on BD and if mood has changed
+            Log.d(TAG, "controlMood: BD is greater than 0 ou l'humeur n'est plus l'humeur par défaut");
+            if(MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()) ==0){ //if last date recorded is current day
+                mCustumDialog.setEditTextSubTitle(mSaveMoodData.recoverLastComment()); //recover last comment from table
+                mCountMood=countMood; //recover Mood from SharedPreferences
+            }else{  // restore mMood and mComment by default
+                mCustumDialog.setEditTextSubTitle("");
+                mCountMood=0;
+            }
         }
+        switchMood();
     }
 }

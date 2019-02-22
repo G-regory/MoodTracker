@@ -115,21 +115,26 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @return objet StoreMood
      */
     public StoreMood restaureLastData(){
-
-        mSQLiteDatabase=getReadableDatabase();
-        String StrSQL="Select * from "+TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC LIMIT 1" ;
-        Cursor mCursor= mSQLiteDatabase.rawQuery(StrSQL,null);
         StoreMood dataLastStore=null;
 
-        //course table from beginning to the end
-        for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()){
-            //recover data of the table and store in objet dataStore
-            StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));
-            //store each objet in the list StoreMood
-            dataLastStore=dataStore;
+        try{
+            mSQLiteDatabase=getReadableDatabase();
+            String StrSQL="Select * from "+TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC LIMIT 1" ;
+            Cursor mCursor= mSQLiteDatabase.rawQuery(StrSQL,null);
+
+            //course table from beginning to the end
+            for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()){
+                //recover data of the table and store in objet dataStore
+                StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));
+                //store each objet in the list StoreMood
+                dataLastStore=dataStore;
+            }
+            mCursor.close();
+            mSQLiteDatabase.close();
+        }catch (SQLException e){
+            Log.d(TAG, "restaureLastData: failure");
         }
-        mCursor.close();
-        mSQLiteDatabase.close();
+       
         return dataLastStore;
     }
 

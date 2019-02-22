@@ -27,7 +27,7 @@ public class HistoryActivity extends AppCompatActivity {
     public final String BONNE_HUMEUR = "Bonne humeur";
     public final String HUMEUR_NORMALE = "Humeur normale";
     public final String MAUVAISE_HUMEUR = "Mauvaise humeur";
-    public final String TRÈS_MAUVAISE_HUMEUR = "Très mauvaise humeur";
+    public final String TRES_MAUVAISE_HUMEUR = "Très mauvaise humeur";
 
     private final String TAG = "MoodMessage:History";
     private List<StoreMood> mStoreMoods;
@@ -164,6 +164,9 @@ public class HistoryActivity extends AppCompatActivity {
         comment=pStoreMood.getComment();
         List<Guideline> listGuideLine=returnListGuideLine();
         List<Integer> listIdGuideLine=returListIdGuideLine();
+
+        
+
         switch (Mood){
             case (SUPER_BONNE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
@@ -197,7 +200,7 @@ public class HistoryActivity extends AppCompatActivity {
                 pGroup.setVisibility(View.VISIBLE);
                 checkComment(comment, pImageButton);
                 break;
-            case (TRÈS_MAUVAISE_HUMEUR):
+            case (TRES_MAUVAISE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
                 listGuideLine.get(4).setVisibility(View.VISIBLE);   //Layout padding to 25%
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(4),ConstraintSet.END,0);
