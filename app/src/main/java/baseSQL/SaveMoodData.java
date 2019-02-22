@@ -1,6 +1,7 @@
 package baseSQL;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
@@ -76,56 +77,96 @@ public class SaveMoodData {
      * @param differenceDays
      */
     private void checkLastDateAndReturnEmptyMood(long differenceDays) {
-        int difDay= (int)differenceDays;
+        int difDay = (int) differenceDays;
 
-        switch (difDay){
-            case 0:
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.updateData(mNewStoreMood);
-                }
-                break;
-            case 1:
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
-            case 2:
-                addEmptyMood(difDay);
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
-            case 3:
-                addEmptyMood(difDay);
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
-            case 4:
-                addEmptyMood(difDay);
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
-            case 5:
-                addEmptyMood(difDay);
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
-            case 6:
-                addEmptyMood(difDay);
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
-            case 7:
-                addEmptyMood(difDay);
-                if(mNewStoreMood !=null){
-                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                }
-                break;
+
+        //if difday equal to 0  and newMood isn't null update newMood table
+        if(difDay == 0 && mNewStoreMood != null){
+            mMySQLiteOpenHelper.updateData(mNewStoreMood);
+            Log.d(TAG, "checkLastDateAndReturnEmptyMood: juste update");
         }
+
+        //if difday equal to 1  and newMood isn't null record newMood table
+        if(difDay == 1 && mNewStoreMood != null){
+            mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+            Log.d(TAG, "checkLastDateAndReturnEmptyMood: juste record");
+
+        }
+
+        //if difday is taller than 1 add emptyMood and else newMood isn't null record newMood table
+        if(difDay > 1 ){
+            addEmptyMood(difDay);
+            Log.d(TAG, "checkLastDateAndReturnEmptyMood: add empty mood "+difDay);
+            if (mNewStoreMood != null){
+                mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+                Log.d(TAG, "checkLastDateAndReturnEmptyMood: juste record after add empty");
+            }
+        }
+
+
+//        switch (difDay) {
+//            case 0:
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.updateData(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//                break;
+//            case 1:
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//
+//                break;
+//            default:
+//                addEmptyMood(difDay);
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//                break;
+//            case 3:
+//                addEmptyMood(difDay);
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//
+//                break;
+//            case 4:
+//                addEmptyMood(difDay);
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//
+//                break;
+//            case 5:
+//                addEmptyMood(difDay);
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//
+//                break;
+//            case 6:
+//                addEmptyMood(difDay);
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//
+//                break;
+//            case 7:
+//                addEmptyMood(difDay);
+//                if (mNewStoreMood != null) {
+//                    mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+//                }
+//                Log.d(TAG, "checkLastDateAndReturnEmptyMood: switch, here we are" + difDay);
+//
+//                break;
+//        }
+
     }
 
     /**

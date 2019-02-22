@@ -1,9 +1,11 @@
 package com.carriel.gregory.moodtracker.controler;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.carriel.gregory.moodtracker.R;
 import com.carriel.gregory.moodtracker.controler.utils.CustumDialog;
+import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 
 import java.util.Date;
 
@@ -212,4 +215,27 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         Intent intentHistory = new Intent(MainActivity.this, HistoryActivity.class);
         startActivity(intentHistory);
     }
+
+    @Override
+    protected void onResume() {
+        controlMood(); //check if current mood
+
+        super.onResume();
+    }
+
+    /**
+     * check current mood and current comment
+     */
+    private void controlMood() {
+        if(MyToolsDate.compareDate(new Date(), mSaveMoodData.getLastDate()) != 0){
+            Log.d(TAG, "controlMood: la date est différente donc restart humeur");
+            countMood=0;
+            mCustumDialog.setEditTextSubTitle("");
+            switchMood();
+
+        }
+
+    }
+
+
 }
