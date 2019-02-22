@@ -1,5 +1,6 @@
 package com.carriel.gregory.moodtracker.controler;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -201,5 +202,14 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     public boolean onTouchEvent(MotionEvent event){
         mGestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * when clic button history, start activity_history
+     * @param view button history
+     */
+    public void buttonHistory(View view) {
+        Intent intentHistory = new Intent(MainActivity.this, HistoryActivity.class);
+        startActivity(intentHistory);
     }
 }
