@@ -1,7 +1,6 @@
 package com.carriel.gregory.moodtracker.controler;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 
 import java.util.Date;
 
-import baseSQL.SaveMoodData;
+import com.carriel.gregory.moodtracker.controler.baseSQL.SaveMoodData;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     //*******access point to save & restore data to the DB
     private SaveMoodData mSaveMoodData;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +109,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     }
 
     @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
+    public void onShowPress(MotionEvent e) {}
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
@@ -219,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     @Override
     protected void onResume() {
         controlMood(); //check if current mood
-
         super.onResume();
     }
 
@@ -234,8 +229,5 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             switchMood();
 
         }
-
     }
-
-
 }

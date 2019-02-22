@@ -1,4 +1,4 @@
-package baseSQL;
+package com.carriel.gregory.moodtracker.controler.baseSQL;
 
 import android.content.ContentValues;
 import android.content.Context;
