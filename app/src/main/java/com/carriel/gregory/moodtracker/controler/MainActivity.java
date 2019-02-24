@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     }
 
     /**
-     * when clic button history, start activity_history
+     * button history, start activity_history
      * @param view button history
      */
     public void buttonHistory(View view) {
@@ -252,5 +252,17 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             }
         }
         switchMood();
+    }
+
+    /**
+     * button share mood of day with other friend
+     * @param view
+     */
+    public void shareButton(View view) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String mood=mMood;
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sentence_share_mood)+mood);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.title_share_mood)));
     }
 }

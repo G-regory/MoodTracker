@@ -2,7 +2,6 @@ package com.carriel.gregory.moodtracker.controler;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.constraint.Group;
 import android.support.constraint.Guideline;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ public class HistoryActivity extends AppCompatActivity {
     private ConstraintSet mConstraintSet;
     private RelativeLayout mRelativeLayoutDay1, mRelativeLayoutDay2,mRelativeLayoutDay3, mRelativeLayoutDay4,mRelativeLayoutDay5,mRelativeLayoutDay6,mRelativeLayoutDay7;
     private ImageButton mButtonComment1, mButtonComment2, mButtonComment3,mButtonComment4,mButtonComment5,mButtonComment6, mButtonComment7;
-    private Group mGroupDay1, mGroupDay2, mGroupDay3, mGroupDay4, mGroupDay5, mGroupDay6, mGroupDay7;
     private TextView mTextViewConsol;
 
     @Override
@@ -68,13 +66,13 @@ public class HistoryActivity extends AppCompatActivity {
         mButtonComment5=findViewById(R.id.activity_history_btn_day_5);
         mButtonComment6=findViewById(R.id.activity_history_btn_day_6);
         mButtonComment7=findViewById(R.id.activity_history_btn_day_7);
-        mGroupDay1=findViewById(R.id.activity_history_group_day_1);
-        mGroupDay2=findViewById(R.id.activity_history_group_day_2);
-        mGroupDay3=findViewById(R.id.activity_history_group_day_3);
-        mGroupDay4=findViewById(R.id.activity_history_group_day_4);
-        mGroupDay5=findViewById(R.id.activity_history_group_day_5);
-        mGroupDay6=findViewById(R.id.activity_history_group_day_6);
-        mGroupDay7=findViewById(R.id.activity_history_group_day_7);
+//        mGroupDay1=findViewById(R.id.activity_history_group_day_1);
+//        mGroupDay2=findViewById(R.id.activity_history_group_day_2);
+//        mGroupDay3=findViewById(R.id.activity_history_group_day_3);
+//        mGroupDay4=findViewById(R.id.activity_history_group_day_4);
+//        mGroupDay5=findViewById(R.id.activity_history_group_day_5);
+//        mGroupDay6=findViewById(R.id.activity_history_group_day_6);
+//        mGroupDay7=findViewById(R.id.activity_history_group_day_7);
         mTextViewConsol=findViewById(R.id.activity_history_empty_txt);
         mConstraintSet= new ConstraintSet();
         mSaveMoodData=SaveMoodData.getInstance(this);
@@ -106,7 +104,7 @@ public class HistoryActivity extends AppCompatActivity {
                 List<RelativeLayout> listRelativeLayout = returnListRelativeLayout();
 
                 //get the list of all groups(Text and Layout)
-                List<Group> listGroupDay = returnListGroup();
+//                List<Group> listGroupDay = returnListGroup();
 
                 //get the list of all ImageButton
                 List<ImageButton> listPopupDay = returnListButtonComment();
@@ -116,7 +114,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 //loop on all view and the position by mood corresponding
                 for (int i = 0; i < maxIndexMood; i++) {
-                    showMood(listRelativeLayout.get(i), listGroupDay.get(i), listPopupDay.get(i), mStoreMoods.get(i), listIdLayout.get(i));
+                    showMood(listRelativeLayout.get(i), listPopupDay.get(i), mStoreMoods.get(i), listIdLayout.get(i));
                 }
             }
 
@@ -150,62 +148,50 @@ public class HistoryActivity extends AppCompatActivity {
      * recover all the view line by line, and defines a color, padding and if ImageButton will be visible or not
      * by to the mood of the list and its its place
      * @param pLayout
-     * @param pGroup
      * @param pImageButton
      * @param pStoreMood
      * @param pIdLayout
      */
-    private void showMood(RelativeLayout pLayout, Group pGroup, ImageButton pImageButton, StoreMood pStoreMood, Integer pIdLayout) {
+    private void showMood(RelativeLayout pLayout, ImageButton pImageButton, StoreMood pStoreMood, Integer pIdLayout) {
         mConstraintSet.clone(mConstraints);
         String Mood="";
         String comment="";
         Mood=pStoreMood.getMood();
 
         comment=pStoreMood.getComment();
-        List<Guideline> listGuideLine=returnListGuideLine();
-        List<Integer> listIdGuideLine=returListIdGuideLine();
+        List<Integer> listIdGuideLine= returnListIdGuideLine();
 
         
 
         switch (Mood){
             case (SUPER_BONNE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
-                listGuideLine.get(0).setVisibility(View.VISIBLE);   //Layout padding to 100%
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(0),ConstraintSet.END,0);
                 mConstraintSet.applyTo(mConstraints);
-                pGroup.setVisibility(View.VISIBLE);     //show text define the day and the layout
                 checkComment(comment, pImageButton);    //check if a comment is present
                 break;
             case (BONNE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
-                listGuideLine.get(1).setVisibility(View.VISIBLE);   //Layout padding to 85%
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(1),ConstraintSet.END,0);
                 mConstraintSet.applyTo(mConstraints);
-                pGroup.setVisibility(View.VISIBLE);
                 checkComment(comment, pImageButton);
                 break;
             case (HUMEUR_NORMALE):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
-                listGuideLine.get(2).setVisibility(View.VISIBLE);   //Layout padding to 65%
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(2),ConstraintSet.END,0);
                 mConstraintSet.applyTo(mConstraints);
-                pGroup.setVisibility(View.VISIBLE);
                 checkComment(comment, pImageButton);
                 break;
             case (MAUVAISE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
-                listGuideLine.get(3).setVisibility(View.VISIBLE);   //Layout padding to 45%
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(3),ConstraintSet.END,0);
                 mConstraintSet.applyTo(mConstraints);
-                pGroup.setVisibility(View.VISIBLE);
                 checkComment(comment, pImageButton);
                 break;
             case (TRES_MAUVAISE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
-                listGuideLine.get(4).setVisibility(View.VISIBLE);   //Layout padding to 25%
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(4),ConstraintSet.END,0);
                 mConstraintSet.applyTo(mConstraints);
-                pGroup.setVisibility(View.VISIBLE);
                 checkComment(comment, pImageButton);
                 break;
         }
@@ -230,23 +216,6 @@ public class HistoryActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    /**
-     * recover view Guideline and store in the list
-     * Guideline allows to fill according to Mood the bar of layout
-     * @return listGuideLine
-     */
-    private List<Guideline> returnListGuideLine() {
-        List<Guideline> listGuideLine= new ArrayList<>();
-
-        listGuideLine.add((Guideline) findViewById(R.id.activity_history_guidelinev1));
-        listGuideLine.add((Guideline) findViewById(R.id.activity_history_guidelinev2));
-        listGuideLine.add((Guideline) findViewById(R.id.activity_history_guidelinev3));
-        listGuideLine.add((Guideline) findViewById(R.id.activity_history_guidelinev4));
-        listGuideLine.add((Guideline) findViewById(R.id.activity_history_guidelinev5));
-
-        return listGuideLine;
     }
 
     /**
@@ -287,7 +256,7 @@ public class HistoryActivity extends AppCompatActivity {
      * recover variable of class R id  des GuideLines and store in list
      * @return listIdGuideLine
      */
-    private List<Integer> returListIdGuideLine(){
+    private List<Integer> returnListIdGuideLine(){
         List<Integer> listIdGuideLine= new ArrayList<>();
         listIdGuideLine.add(R.id.activity_history_guidelinev1);
         listIdGuideLine.add(R.id.activity_history_guidelinev2);
@@ -296,23 +265,6 @@ public class HistoryActivity extends AppCompatActivity {
         listIdGuideLine.add(R.id.activity_history_guidelinev5);
 
         return listIdGuideLine;
-    }
-
-    /**
-     * recover views Groups include TextViews and RelativeLayout, and store in list
-     * @return ListGroup
-     */
-    private List<Group> returnListGroup(){
-        List<Group> listGroup= new ArrayList<>();
-        listGroup.add(mGroupDay1);
-        listGroup.add(mGroupDay2);
-        listGroup.add(mGroupDay3);
-        listGroup.add(mGroupDay4);
-        listGroup.add(mGroupDay5);
-        listGroup.add(mGroupDay6);
-        listGroup.add(mGroupDay7);
-
-        return listGroup;
     }
 
     /**

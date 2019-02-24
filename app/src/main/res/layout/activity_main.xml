@@ -69,5 +69,19 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_main_smiley_img"
         app:layout_constraintVertical_bias="0.943" />
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_action_name_share_btn"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_smiley_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="shareButton"
+        app:layout_constraintHorizontal_bias="0.963"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 </android.support.constraint.ConstraintLayout>

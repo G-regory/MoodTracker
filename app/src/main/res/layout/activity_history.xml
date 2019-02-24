@@ -10,10 +10,9 @@
         android:id="@+id/activity_history_relative_layout_day_7"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/activity_history_guidelineh7"
-        app:layout_constraintEnd_toStartOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toStartOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +22,8 @@
         android:id="@+id/activity_history_relative_layout_day_6"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/activity_history_guidelineh6"
-        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_history_guidelineh7"
@@ -35,10 +32,8 @@
         android:id="@+id/activity_history_relative_layout_day_5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/activity_history_guidelineh5"
-        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_history_guidelineh6"
@@ -47,10 +42,9 @@
         android:id="@+id/activity_history_relative_layout_day_4"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
+        
         app:layout_constraintBottom_toBottomOf="@+id/activity_history_guidelineh4"
-        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_history_guidelineh5"
@@ -59,10 +53,9 @@
         android:id="@+id/activity_history_relative_layout_day_3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
+        
         app:layout_constraintBottom_toBottomOf="@+id/activity_history_guidelineh3"
-        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_history_guidelineh4"
@@ -71,10 +64,8 @@
         android:id="@+id/activity_history_relative_layout_day_2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/activity_history_guidelineh2"
-        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_history_guidelineh3"
@@ -83,10 +74,8 @@
         android:id="@+id/activity_history_relative_layout_day_1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/activity_history_guidelineh1"
-        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev5"
+        app:layout_constraintEnd_toEndOf="@+id/activity_history_guidelinev6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_history_guidelineh2"
@@ -276,7 +265,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.000001" />
+        app:layout_constraintGuide_percent="0" />
 
     <!--Guideline Verticale-->
 
@@ -310,51 +299,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.25304136" />
-
-    <!--Groupe Layout et Text-->
-
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_7"
+    <android.support.constraint.Guideline
+        android:id="@+id/activity_history_guidelinev6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_7,activity_history_relative_layout_day_7" />
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_6,activity_history_relative_layout_day_6" />
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_5,activity_history_relative_layout_day_5" />
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_4,activity_history_relative_layout_day_4" />
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_3,activity_history_relative_layout_day_3" />
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_2,activity_history_relative_layout_day_2" />
-    <android.support.constraint.Group
-        android:id="@+id/activity_history_group_day_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:constraint_referenced_ids="txt_day_1,activity_history_relative_layout_day_1" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.01" />
 
     <TextView
         android:id="@+id/activity_history_empty_txt"
