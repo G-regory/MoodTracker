@@ -2,7 +2,6 @@ package com.carriel.gregory.moodtracker.controler;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.constraint.Guideline;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,7 +35,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ConstraintSet mConstraintSet;
     private RelativeLayout mRelativeLayoutDay1, mRelativeLayoutDay2,mRelativeLayoutDay3, mRelativeLayoutDay4,mRelativeLayoutDay5,mRelativeLayoutDay6,mRelativeLayoutDay7;
     private ImageButton mButtonComment1, mButtonComment2, mButtonComment3,mButtonComment4,mButtonComment5,mButtonComment6, mButtonComment7;
-    private TextView mTextViewConsol;
+    private TextView mTextViewConsole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +65,7 @@ public class HistoryActivity extends AppCompatActivity {
         mButtonComment5=findViewById(R.id.activity_history_btn_day_5);
         mButtonComment6=findViewById(R.id.activity_history_btn_day_6);
         mButtonComment7=findViewById(R.id.activity_history_btn_day_7);
-//        mGroupDay1=findViewById(R.id.activity_history_group_day_1);
-//        mGroupDay2=findViewById(R.id.activity_history_group_day_2);
-//        mGroupDay3=findViewById(R.id.activity_history_group_day_3);
-//        mGroupDay4=findViewById(R.id.activity_history_group_day_4);
-//        mGroupDay5=findViewById(R.id.activity_history_group_day_5);
-//        mGroupDay6=findViewById(R.id.activity_history_group_day_6);
-//        mGroupDay7=findViewById(R.id.activity_history_group_day_7);
-        mTextViewConsol=findViewById(R.id.activity_history_empty_txt);
+        mTextViewConsole =findViewById(R.id.activity_history_empty_txt);
         mConstraintSet= new ConstraintSet();
         mSaveMoodData=SaveMoodData.getInstance(this);
     }
@@ -86,25 +78,21 @@ public class HistoryActivity extends AppCompatActivity {
      * loop on each ID in this table, show a different color for each Mood and positions by date
      */
     public void recoverMoods(){
-        int NumberID=mSaveMoodData.returnNumberId();
-        int answerDifDay;
+        int NumberID=mSaveMoodData.returnNumberId(); //recover number ID in table
 
-        if (NumberID>0){ //if the ID number of the tables biggest 0
-            answerDifDay =(int) MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()); //compare current date and last date recorded, and return the difference
+        if (NumberID>0){ //if the number ID is greater than 0
+            int answerDifDay =(int) MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()); //compare current date and last date recorded, and return the difference day
 
             if(NumberID ==1 && answerDifDay ==0){ //if current date
-                mTextViewConsol.setVisibility(View.VISIBLE);  //show msg empty history
+                mTextViewConsole.setVisibility(View.VISIBLE);  //show msg empty history
             }else{ //hide msg and show result
-                mTextViewConsol.setVisibility(View.INVISIBLE);  //hide msg empty history
+                mTextViewConsole.setVisibility(View.INVISIBLE);  //hide msg empty history
 
                 mStoreMoods = mSaveMoodData.restaureListMood(answerDifDay); //recover list data
                 int maxIndexMood = countMoodList(); //count number of items in the list
 
                 //get the list of all layouts
                 List<RelativeLayout> listRelativeLayout = returnListRelativeLayout();
-
-                //get the list of all groups(Text and Layout)
-//                List<Group> listGroupDay = returnListGroup();
 
                 //get the list of all ImageButton
                 List<ImageButton> listPopupDay = returnListButtonComment();
@@ -117,9 +105,8 @@ public class HistoryActivity extends AppCompatActivity {
                     showMood(listRelativeLayout.get(i), listPopupDay.get(i), mStoreMoods.get(i), listIdLayout.get(i));
                 }
             }
-
         }else{
-            mTextViewConsol.setVisibility(View.VISIBLE); //affiche msg historique vide
+            mTextViewConsole.setVisibility(View.VISIBLE); //affiche msg historique vide
         }
     }
 
@@ -161,40 +148,30 @@ public class HistoryActivity extends AppCompatActivity {
         comment=pStoreMood.getComment();
         List<Integer> listIdGuideLine= returnListIdGuideLine();
 
-        
-
         switch (Mood){
             case (SUPER_BONNE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(0),ConstraintSet.END,0);
-                mConstraintSet.applyTo(mConstraints);
-                checkComment(comment, pImageButton);    //check if a comment is present
                 break;
             case (BONNE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(1),ConstraintSet.END,0);
-                mConstraintSet.applyTo(mConstraints);
-                checkComment(comment, pImageButton);
                 break;
             case (HUMEUR_NORMALE):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(2),ConstraintSet.END,0);
-                mConstraintSet.applyTo(mConstraints);
-                checkComment(comment, pImageButton);
                 break;
             case (MAUVAISE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(3),ConstraintSet.END,0);
-                mConstraintSet.applyTo(mConstraints);
-                checkComment(comment, pImageButton);
                 break;
             case (TRES_MAUVAISE_HUMEUR):
                 pLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
                 mConstraintSet.connect(pIdLayout,ConstraintSet.END,listIdGuideLine.get(4),ConstraintSet.END,0);
-                mConstraintSet.applyTo(mConstraints);
-                checkComment(comment, pImageButton);
                 break;
         }
+        mConstraintSet.applyTo(mConstraints);
+        checkComment(comment, pImageButton); //check if a comment is present
     }
 
     /**

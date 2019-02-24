@@ -50,10 +50,12 @@ public abstract class MyToolsDate {
      * @return difference of day between old date and new date
      */
     public static long compareDate(Date pNewDate, Date pLastDate){
+        long diff;
+        long numberOfDay;
 
-        long diff = Math.abs(pNewDate.getTime() - pLastDate.getTime());
-        long numberOfDay = diff/CONST_DURATION_OF_DAY;
-        System.out.println(numberOfDay);
+
+        diff = Math.abs(pNewDate.getTime() - pLastDate.getTime());
+        numberOfDay = diff/CONST_DURATION_OF_DAY;
 
         return numberOfDay;
     }

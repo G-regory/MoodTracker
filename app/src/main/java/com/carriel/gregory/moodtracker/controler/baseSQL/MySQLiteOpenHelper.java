@@ -20,7 +20,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private final String TAG = "MoodMessage :MySql";
     private SQLiteDatabase mSQLiteDatabase;
 
-    private static final int VERSION_DB = 1;
+    private static final int VERSION_DB = 2;
     private static final String DB_NAME = "HistoryMood.db";
     private final String TABLE_NAME = "Mood";
     private final String COLUMN_ID = "_id";

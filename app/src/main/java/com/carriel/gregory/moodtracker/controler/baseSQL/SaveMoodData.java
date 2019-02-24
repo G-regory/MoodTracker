@@ -3,6 +3,7 @@ package com.carriel.gregory.moodtracker.controler.baseSQL;
 import android.content.Context;
 import android.util.Log;
 
+import com.carriel.gregory.moodtracker.controler.HistoryActivity;
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
@@ -79,13 +80,13 @@ public class SaveMoodData {
     private void compareLastDateAndMood(long differenceDays) {
         int difDay = (int) differenceDays;
 
-        if(difDay == 0 && mNewStoreMood != null){
-            mMySQLiteOpenHelper.updateData(mNewStoreMood);
+        if(difDay == 0 && mNewStoreMood != null){  //if 0 day difference and mNewStoreMood is not null
+            mMySQLiteOpenHelper.updateData(mNewStoreMood); //update mNewStoreMood in last ID
             Log.d(TAG, "compareLastDateAndMood: juste update");
         }
 
-        if(difDay == 1 && mNewStoreMood != null){
-            mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+        if(difDay == 1 && mNewStoreMood != null){  //if 1 day difference and mNewStoreMood is not null
+            mMySQLiteOpenHelper.recordDate(mNewStoreMood); //record mNewStoreMood in table
             Log.d(TAG, "compareLastDateAndMood: juste record");
         }
 
@@ -105,7 +106,6 @@ public class SaveMoodData {
      */
     private void addEmptyMood(int pNbrDay){
         for(int i=pNbrDay-1; i>0;i--){
-
             mEmptyMood = new StoreMood("", "", MyToolsDate.substractDay(i));
             mMySQLiteOpenHelper.recordDate(mEmptyMood);
         }
@@ -139,7 +139,7 @@ public class SaveMoodData {
      * @param answerDifDay
      * @return
      */
-    public List<StoreMood> restaureListMood(int answerDifDay){
+    public List<StoreMood> restaureListMood( int answerDifDay){
         List<StoreMood> storeMoods;
 
         compareLastDateAndMood(answerDifDay);

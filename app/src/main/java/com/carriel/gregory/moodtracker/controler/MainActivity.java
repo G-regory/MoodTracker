@@ -225,6 +225,9 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         super.onResume();
     }
 
+    /**
+     * Save last mood before close application
+     */
     @Override
     protected void onPause() {
         mSharedPreferences.edit().putInt(SHARED_COUNTMOOD, mCountMood).apply(); //save number countMood
