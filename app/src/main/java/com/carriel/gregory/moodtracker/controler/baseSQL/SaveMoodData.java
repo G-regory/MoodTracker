@@ -49,9 +49,9 @@ public class SaveMoodData {
         mNewStoreMood =new StoreMood(mood,comment,date);
 
         if (returnNumberId()>0) {
-            compareLastDateAndMood(getDifferenceDays(date));
+            compareLastDateAndMood(getDifferenceDays(date));//compare difference day and insert or update in the table
         }else{
-            mMySQLiteOpenHelper.recordDate(mNewStoreMood);
+            mMySQLiteOpenHelper.recordDate(mNewStoreMood); //insert in the table
         }
     }
 
@@ -77,19 +77,18 @@ public class SaveMoodData {
      * @param differenceDays
      */
     private void compareLastDateAndMood(long differenceDays) {
-        int difDay = (int) differenceDays;
+        int difDay = (int) differenceDays; //difference day
 
         if(difDay == 0 && mNewStoreMood != null){  //if 0 day difference and mNewStoreMood is not null
             mMySQLiteOpenHelper.updateData(mNewStoreMood); //update mNewStoreMood in last ID
         }
 
         if(difDay == 1 && mNewStoreMood != null){  //if 1 day difference and mNewStoreMood is not null
-            mMySQLiteOpenHelper.recordDate(mNewStoreMood); //record mNewStoreMood in table
-
+            mMySQLiteOpenHelper.recordDate(mNewStoreMood); ///insert mNewStoreMood in the table
         }
 
-        if(difDay > 1 ){
-            addEmptyMood(difDay);
+        if(difDay > 1 ){ // if more than one day difference
+            addEmptyMood(difDay); //add empty mood
             if (mNewStoreMood != null){
                 mMySQLiteOpenHelper.recordDate(mNewStoreMood);
             }
@@ -104,7 +103,7 @@ public class SaveMoodData {
         for(int i=pNbrDay-1; i>0;i--){
             mEmptyMood = new StoreMood("", "", MyToolsDate.substractDay(i));
             mMySQLiteOpenHelper.recordDate(mEmptyMood);
-        }
+         }
     }
 
     /**
@@ -132,15 +131,12 @@ public class SaveMoodData {
     /**
      * created some mood empty according to the day difference between last date record and current date
      * recover all data of the table and stock in a list
-     * @param answerDifDay
      * @return
      */
-    public List<StoreMood> restaureListMood( int answerDifDay){
+    public List<StoreMood> restaureListMood(){
         List<StoreMood> storeMoods;
 
-//        compareLastDateAndMood(answerDifDay);
-
-        storeMoods =mMySQLiteOpenHelper.restoreAllData();
+        storeMoods =mMySQLiteOpenHelper.restoreAllData();  //restore data from table
 
         return storeMoods;
     }
@@ -153,7 +149,7 @@ public class SaveMoodData {
     public String recoverLastComment() {
         String lastComment = "";
         if (returnNumberId() > 0) {
-            lastComment = mMySQLiteOpenHelper.restoreLastData().getComment();
+            lastComment = mMySQLiteOpenHelper.restoreLastData().getComment(); //restore last comment from the table
 
             if (!lastComment.isEmpty() && MyToolsDate.compareDate(new Date(), getLastDate()) == 0) {
             }

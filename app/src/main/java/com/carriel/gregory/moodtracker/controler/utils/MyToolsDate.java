@@ -2,8 +2,11 @@ package com.carriel.gregory.moodtracker.controler.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+
+import static java.time.LocalDate.now;
 
 public abstract class MyToolsDate {
 
@@ -52,7 +55,6 @@ public abstract class MyToolsDate {
     public static long compareDate(Date pNewDate, Date pLastDate){
         long diff;
         long numberOfDay;
-
 
         diff = Math.abs(pNewDate.getTime() - pLastDate.getTime());
         numberOfDay = diff/CONST_DURATION_OF_DAY;

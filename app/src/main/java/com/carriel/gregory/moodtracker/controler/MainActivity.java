@@ -250,10 +250,10 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     private void controlMood() {
         int numberID=mSaveMoodData.returnNumberId();  //recover number ID from table
-        int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,0);  //recover last Mood save and if don't find recover 0
+        int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,0);  //recover last countMood saved
 
         if(numberID >0 || countMood != 0){  //check if data stored on BD and if mood has changed
-            if(MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()) ==0){ //if last date recorded is current day
+            if(MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()) ==0){ //if last date recorded and current day are equal
                 mCustumDialog.setEditTextSubTitle(mSaveMoodData.recoverLastComment()); //recover last comment from table
                 mCountMood=countMood; //recover Mood from SharedPreferences
             }else{  // restore mMood and mComment by default

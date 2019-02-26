@@ -60,8 +60,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     /**
      * Count ID number in the table
-     * if NumberID is biggest 0, compare current date with last date recorded and return difference date
-     * recover list StoreMood of alldata
+     * if NumberID is greater than 0, compare current date with last date recorded and return difference date
+     * recover list StoreMood of all data
      * loop on each ID in this table, show a different color for each Mood and positions by date
      */
     public void recoverMoods(){
@@ -76,7 +76,7 @@ public class HistoryActivity extends AppCompatActivity {
                 mTextViewConsole.setVisibility(View.INVISIBLE);  //hide msg empty history
 
                 mSaveMoodData.addEmptyMood(answerDifDay);
-                mStoreMoods = mSaveMoodData.restaureListMood(answerDifDay); //recover list data
+                mStoreMoods = mSaveMoodData.restaureListMood(); //recover list data
                 int maxIndexMood = countMoodList(); //count number of items in the list
 
                 //get the list of all layouts
@@ -94,7 +94,7 @@ public class HistoryActivity extends AppCompatActivity {
                 }
             }
         }else{
-            mTextViewConsole.setVisibility(View.VISIBLE); //affiche msg historique vide
+            mTextViewConsole.setVisibility(View.VISIBLE); //display msg history empty
         }
     }
 
