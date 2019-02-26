@@ -19,8 +19,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     private final String TAG = "MoodMessage :MySql";
     private SQLiteDatabase mSQLiteDatabase;
-
-    private static final int VERSION_DB = 2;
+    private static final int VERSION_DB = 1;
     private static final String DB_NAME = "HistoryMood.db";
     private final String TABLE_NAME = "Mood";
     private final String COLUMN_ID = "_id";
@@ -93,28 +92,45 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         String mDate2 = MyToolsDate.convertDatetoString(pStoreMood.getDate());
         String mMoodEmpty="";
 
-        if(!pStoreMood.getMood().isEmpty()){
-            mMoodEmpty= pStoreMood.getMood();
-        }else {
-            mMoodEmpty="Bonne humeur";
-        }
+        mMoodEmpty = controlMood(pStoreMood);
         try { mSQLiteDatabase=getWritableDatabase();
             ContentValues mContentValues= new ContentValues();
             mContentValues.put(COLUMN_DAY,mDate2);
             mContentValues.put(COLUMN_MOOD, mMoodEmpty);
             mContentValues.put(COLUMN_COMMENT, pStoreMood.getComment());
             mSQLiteDatabase.insert(TABLE_NAME, null,mContentValues);
-            mSQLiteDatabase.close();
+
         }catch (SQLException e){
             Log.d(TAG, "recordDate: failure");
         }
+
+
+
+    }
+
+    /**
+     * check if current mood is empty
+     * if isn't empty, input current Mood
+     * else input "Bonne humeur"
+     *
+     * @param pStoreMood
+     * @return mood
+     */
+    private String controlMood(StoreMood pStoreMood) {
+        String mMoodEmpty;
+        if (!pStoreMood.getMood().isEmpty()) {
+            mMoodEmpty = pStoreMood.getMood();
+        } else {
+            mMoodEmpty = "Bonne humeur";
+        }
+        return mMoodEmpty;
     }
 
     /**
      * recover the last Data in this table
      * @return objet StoreMood
      */
-    public StoreMood restaureLastData(){
+    public StoreMood restoreLastData(){
         StoreMood dataLastStore=null;
 
         try{
@@ -122,51 +138,43 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             String StrSQL="Select * from "+TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC LIMIT 1" ;
             Cursor mCursor= mSQLiteDatabase.rawQuery(StrSQL,null);
 
-            //course table from beginning to the end
-            for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()){
-                //recover data of the table and store in objet dataStore
-                StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));
-                //store each objet in the list StoreMood
-                dataLastStore=dataStore;
+            for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()){   //course table
+                StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));  //recover data from table and store in dataStore object
+                dataLastStore=dataStore;    //store last object
             }
             mCursor.close();
-            mSQLiteDatabase.close();
         }catch (SQLException e){
-            Log.d(TAG, "restaureLastData: failure");
+            Log.d(TAG, "restoreLastData: failure");
         }
-       
+
         return dataLastStore;
     }
 
 
     /**
      * recover allData of the table by order descending and the store in a list of StoreMood,end return
-     * @return list of StoreMood recover int the table
+     * @return list of StoreMood recover in the table
      */
-    public List<StoreMood> restaureAllData(){
+    public List<StoreMood> restoreAllData(){
         List<StoreMood> storeDatas=new ArrayList<>();
         String todayString= MyToolsDate.convertDatetoString(new Date());
 
-
         try {
             mSQLiteDatabase=getReadableDatabase();
-            String StrSQL="Select * from "+TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC" ;
+            String StrSQL="Select * from "+TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC limit 7" ;
             Cursor mCursor= mSQLiteDatabase.rawQuery(StrSQL,null);
 
-            //course table from beginning to the end
-            for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()){
-                //recover data of the table and store in objet dataStore
-
-                StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));
-                //check if data isn't equal to the current date for insert in the list
+            for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()){   //course table from beginning to the end
+                StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));  //recover data of the table and store in dataStore object
                 if(!dataStore.getDate().equals(MyToolsDate.convertStringtoDate(todayString))){
-                    //store each objet in the list storeMood
-                    storeDatas.add(dataStore);
+                        storeDatas.add(dataStore);//store each object in the list storeMood except current day
+
                 }
             }
             mCursor.close();
-            mSQLiteDatabase.close();
-        }catch (SQLException e){}
+        }catch (SQLException e){
+            Log.d(TAG, "restoreAllData: failure");
+        }
 
         return storeDatas;
     }
@@ -178,32 +186,26 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      */
     public void updateData(StoreMood mStoreMood) {
         mSQLiteDatabase = this.getWritableDatabase();
+        String where = COLUMN_ID + "=" + returnNbreIDInTable();
         String mMood="";
+        mMood = controlMood(mStoreMood);
 
-        if(!mStoreMood.getMood().isEmpty()){
-            mMood= mStoreMood.getMood();
-        }else {
-            mMood="Bonne humeur";
-        }
-
-        String date= MyToolsDate.convertDatetoString(mStoreMood.getDate());
+        String currentDate= MyToolsDate.convertDatetoString(mStoreMood.getDate());
         ContentValues mContentValues = new ContentValues();
-        mContentValues.put(COLUMN_DAY,date );
+        mContentValues.put(COLUMN_DAY,currentDate );
         mContentValues.put(COLUMN_MOOD,mMood);
-        if(!mStoreMood.getComment().isEmpty()){
+        if(!mStoreMood.getComment().isEmpty()){  //if current comment isn't empty, store in mContentValues
             mContentValues.put(COLUMN_COMMENT, mStoreMood.getComment());
         }
-        String where = COLUMN_ID + "=" + returnNbreIDInTable();
         try{
-            if(returnNbreIDInTable()==0){
+            if(returnNbreIDInTable()==0){  // if table is empty, insert data in table
                 mSQLiteDatabase.insert(TABLE_NAME, null, mContentValues);
-            }else{
+            }else{  //else update data in table
                 mSQLiteDatabase.update(TABLE_NAME, mContentValues, where, null);
             }
         }catch (SQLException e){
             Log.d(TAG, "updateData: failure");
         }
-        mSQLiteDatabase.close();
     }
 
     /**
@@ -211,13 +213,11 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @return the id numbers recorded in this table
      */
     public int returnNbreIDInTable(){
-
         mSQLiteDatabase=getReadableDatabase();
         String StrSQL="select * from "+TABLE_NAME+" where exists (select * from "+TABLE_NAME+")";
 
         Cursor mCursor=mSQLiteDatabase.rawQuery(StrSQL,null );
         int id=mCursor.getCount();
-
         return id;
     }
 

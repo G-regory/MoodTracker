@@ -3,7 +3,6 @@ package com.carriel.gregory.moodtracker.controler.baseSQL;
 import android.content.Context;
 import android.util.Log;
 
-import com.carriel.gregory.moodtracker.controler.HistoryActivity;
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
@@ -63,7 +62,7 @@ public class SaveMoodData {
      */
     private int getDifferenceDays(Date date) {
         int differenceDay;
-        mLastStoreMood = mMySQLiteOpenHelper.restaureLastData();
+        mLastStoreMood = mMySQLiteOpenHelper.restoreLastData();
         differenceDay= (int) MyToolsDate.compareDate(date, mLastStoreMood.getDate());
 
         return differenceDay;
@@ -82,20 +81,17 @@ public class SaveMoodData {
 
         if(difDay == 0 && mNewStoreMood != null){  //if 0 day difference and mNewStoreMood is not null
             mMySQLiteOpenHelper.updateData(mNewStoreMood); //update mNewStoreMood in last ID
-            Log.d(TAG, "compareLastDateAndMood: juste update");
         }
 
         if(difDay == 1 && mNewStoreMood != null){  //if 1 day difference and mNewStoreMood is not null
             mMySQLiteOpenHelper.recordDate(mNewStoreMood); //record mNewStoreMood in table
-            Log.d(TAG, "compareLastDateAndMood: juste record");
+
         }
 
         if(difDay > 1 ){
             addEmptyMood(difDay);
-            Log.d(TAG, "compareLastDateAndMood: add empty mood "+difDay);
             if (mNewStoreMood != null){
                 mMySQLiteOpenHelper.recordDate(mNewStoreMood);
-                Log.d(TAG, "compareLastDateAndMood: juste record after add empty");
             }
         }
     }
@@ -104,7 +100,7 @@ public class SaveMoodData {
      * loop add empty Moods and record in the table depending on the number of days difference
      * @param pNbrDay day difference
      */
-    private void addEmptyMood(int pNbrDay){
+    public void addEmptyMood(int pNbrDay){
         for(int i=pNbrDay-1; i>0;i--){
             mEmptyMood = new StoreMood("", "", MyToolsDate.substractDay(i));
             mMySQLiteOpenHelper.recordDate(mEmptyMood);
@@ -127,8 +123,8 @@ public class SaveMoodData {
      */
     public Date getLastDate(){
         Date lastDate= null;
-        if(mMySQLiteOpenHelper.restaureLastData()!=null){ //if the last date record isn't null.
-            lastDate=mMySQLiteOpenHelper.restaureLastData().getDate();  //recover last date recorded
+        if(mMySQLiteOpenHelper.restoreLastData()!=null){ //if the last date record isn't null.
+            lastDate=mMySQLiteOpenHelper.restoreLastData().getDate();  //recover last date recorded
         }
         return lastDate;
     }
@@ -142,9 +138,9 @@ public class SaveMoodData {
     public List<StoreMood> restaureListMood( int answerDifDay){
         List<StoreMood> storeMoods;
 
-        compareLastDateAndMood(answerDifDay);
+//        compareLastDateAndMood(answerDifDay);
 
-        storeMoods =mMySQLiteOpenHelper.restaureAllData();
+        storeMoods =mMySQLiteOpenHelper.restoreAllData();
 
         return storeMoods;
     }
@@ -157,7 +153,7 @@ public class SaveMoodData {
     public String recoverLastComment() {
         String lastComment = "";
         if (returnNumberId() > 0) {
-            lastComment = mMySQLiteOpenHelper.restaureLastData().getComment();
+            lastComment = mMySQLiteOpenHelper.restoreLastData().getComment();
 
             if (!lastComment.isEmpty() && MyToolsDate.compareDate(new Date(), getLastDate()) == 0) {
             }

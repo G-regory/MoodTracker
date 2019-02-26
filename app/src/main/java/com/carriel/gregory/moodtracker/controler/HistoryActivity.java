@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ConstraintLayout mConstraints;
     private ConstraintSet mConstraintSet;
     private RelativeLayout mRelativeLayoutDay1, mRelativeLayoutDay2,mRelativeLayoutDay3, mRelativeLayoutDay4,mRelativeLayoutDay5,mRelativeLayoutDay6,mRelativeLayoutDay7;
-    private ImageButton mButtonComment1, mButtonComment2, mButtonComment3,mButtonComment4,mButtonComment5,mButtonComment6, mButtonComment7;
+    private ImageButton mButtonComment1, mButtonComment2, mButtonComment3,mButtonComment4,mButtonComment5,  mButtonComment6, mButtonComment7;
     private TextView mTextViewConsole;
 
     @Override
@@ -51,25 +53,10 @@ public class HistoryActivity extends AppCompatActivity {
      */
     private void init() {
         mConstraints=findViewById(R.id.activity_history_constraint_layout);
-        mRelativeLayoutDay1=findViewById(R.id.activity_history_relative_layout_day_1);
-        mRelativeLayoutDay2=findViewById(R.id.activity_history_relative_layout_day_2);
-        mRelativeLayoutDay3=findViewById(R.id.activity_history_relative_layout_day_3);
-        mRelativeLayoutDay4=findViewById(R.id.activity_history_relative_layout_day_4);
-        mRelativeLayoutDay5=findViewById(R.id.activity_history_relative_layout_day_5);
-        mRelativeLayoutDay6=findViewById(R.id.activity_history_relative_layout_day_6);
-        mRelativeLayoutDay7=findViewById(R.id.activity_history_relative_layout_day_7);
-        mButtonComment1=findViewById(R.id.activity_history_btn_day_1);
-        mButtonComment2=findViewById(R.id.activity_history_btn_day_2);
-        mButtonComment3=findViewById(R.id.activity_history_btn_day_3);
-        mButtonComment4=findViewById(R.id.activity_history_btn_day_4);
-        mButtonComment5=findViewById(R.id.activity_history_btn_day_5);
-        mButtonComment6=findViewById(R.id.activity_history_btn_day_6);
-        mButtonComment7=findViewById(R.id.activity_history_btn_day_7);
         mTextViewConsole =findViewById(R.id.activity_history_empty_txt);
         mConstraintSet= new ConstraintSet();
         mSaveMoodData=SaveMoodData.getInstance(this);
     }
-
 
     /**
      * Count ID number in the table
@@ -88,6 +75,7 @@ public class HistoryActivity extends AppCompatActivity {
             }else{ //hide msg and show result
                 mTextViewConsole.setVisibility(View.INVISIBLE);  //hide msg empty history
 
+                mSaveMoodData.addEmptyMood(answerDifDay);
                 mStoreMoods = mSaveMoodData.restaureListMood(answerDifDay); //recover list data
                 int maxIndexMood = countMoodList(); //count number of items in the list
 
@@ -98,7 +86,7 @@ public class HistoryActivity extends AppCompatActivity {
                 List<ImageButton> listPopupDay = returnListButtonComment();
 
                 //get the list of all layouts by id in the class R
-                List<Integer> listIdLayout = returListIdLayout();
+                List<Integer> listIdLayout = returnListIdLayout();
 
                 //loop on all view and the position by mood corresponding
                 for (int i = 0; i < maxIndexMood; i++) {
@@ -144,7 +132,6 @@ public class HistoryActivity extends AppCompatActivity {
         String Mood="";
         String comment="";
         Mood=pStoreMood.getMood();
-
         comment=pStoreMood.getComment();
         List<Integer> listIdGuideLine= returnListIdGuideLine();
 
@@ -200,14 +187,11 @@ public class HistoryActivity extends AppCompatActivity {
      * @return ListRelativeLayout
      */
     private List<RelativeLayout> returnListRelativeLayout(){
-        List<RelativeLayout> listRelativeLayout= new ArrayList<>();
-        listRelativeLayout.add(mRelativeLayoutDay1);
-        listRelativeLayout.add(mRelativeLayoutDay2);
-        listRelativeLayout.add(mRelativeLayoutDay3);
-        listRelativeLayout.add(mRelativeLayoutDay4);
-        listRelativeLayout.add(mRelativeLayoutDay5);
-        listRelativeLayout.add(mRelativeLayoutDay6);
-        listRelativeLayout.add(mRelativeLayoutDay7);
+        List<RelativeLayout> listRelativeLayout= new ArrayList<>(Arrays.asList(mRelativeLayoutDay1,mRelativeLayoutDay2,mRelativeLayoutDay3,mRelativeLayoutDay4,mRelativeLayoutDay5, mRelativeLayoutDay6, mRelativeLayoutDay7));
+
+        for(int i=0;i<listRelativeLayout.size();i++){
+            listRelativeLayout.set(i,(RelativeLayout) findViewById(returnListIdLayout().get(i)));
+        }
 
         return listRelativeLayout;
     }
@@ -216,15 +200,8 @@ public class HistoryActivity extends AppCompatActivity {
      * recover variable of class R id  to relativeLayout and store in the list
      * @return listIdLayout
      */
-    private List<Integer> returListIdLayout(){
-        List<Integer> listIdLayout= new ArrayList<>();
-        listIdLayout.add(R.id.activity_history_relative_layout_day_1);
-        listIdLayout.add(R.id.activity_history_relative_layout_day_2);
-        listIdLayout.add(R.id.activity_history_relative_layout_day_3);
-        listIdLayout.add(R.id.activity_history_relative_layout_day_4);
-        listIdLayout.add(R.id.activity_history_relative_layout_day_5);
-        listIdLayout.add(R.id.activity_history_relative_layout_day_6);
-        listIdLayout.add(R.id.activity_history_relative_layout_day_7);
+    private List<Integer> returnListIdLayout(){
+        List<Integer> listIdLayout= Arrays.asList(R.id.activity_history_relative_layout_day_1,R.id.activity_history_relative_layout_day_2,R.id.activity_history_relative_layout_day_3,R.id.activity_history_relative_layout_day_4,R.id.activity_history_relative_layout_day_5,R.id.activity_history_relative_layout_day_6, R.id.activity_history_relative_layout_day_7);
 
         return listIdLayout;
     }
@@ -234,12 +211,7 @@ public class HistoryActivity extends AppCompatActivity {
      * @return listIdGuideLine
      */
     private List<Integer> returnListIdGuideLine(){
-        List<Integer> listIdGuideLine= new ArrayList<>();
-        listIdGuideLine.add(R.id.activity_history_guidelinev1);
-        listIdGuideLine.add(R.id.activity_history_guidelinev2);
-        listIdGuideLine.add(R.id.activity_history_guidelinev3);
-        listIdGuideLine.add(R.id.activity_history_guidelinev4);
-        listIdGuideLine.add(R.id.activity_history_guidelinev5);
+        List<Integer> listIdGuideLine= Arrays.asList(R.id.activity_history_guidelinev1,R.id.activity_history_guidelinev2,R.id.activity_history_guidelinev3,R.id.activity_history_guidelinev4,R.id.activity_history_guidelinev5);
 
         return listIdGuideLine;
     }
@@ -249,18 +221,31 @@ public class HistoryActivity extends AppCompatActivity {
      * @return ListGroup
      */
     private List<ImageButton> returnListButtonComment(){
-        List<ImageButton> listButtonComment= new ArrayList<>();
-        listButtonComment.add(mButtonComment1);
-        listButtonComment.add(mButtonComment2);
-        listButtonComment.add(mButtonComment3);
-        listButtonComment.add(mButtonComment4);
-        listButtonComment.add(mButtonComment5);
-        listButtonComment.add(mButtonComment6);
-        listButtonComment.add(mButtonComment7);
+        List<ImageButton> listButtonComment= Arrays.asList(mButtonComment1,mButtonComment2,mButtonComment3,mButtonComment4,mButtonComment5,mButtonComment6,mButtonComment7);
+
+        for(int i=0;i<listButtonComment.size();i++){
+            listButtonComment.set(i,(ImageButton) findViewById(returnListIdButton().get(i)));
+        }
 
         return listButtonComment;
     }
 
+    /**
+     * recover variable of class R id  to relativeLayout and store in the list
+     * @return listIdLayout
+     */
+    private List<Integer> returnListIdButton(){
+        List<Integer> listIdLayout= Arrays.asList(R.id.activity_history_btn_day_1,R.id.activity_history_btn_day_2,R.id.activity_history_btn_day_3,R.id.activity_history_btn_day_4,R.id.activity_history_btn_day_5,R.id.activity_history_btn_day_6, R.id.activity_history_btn_day_7);
+
+        return listIdLayout;
+    }
+
+    @Override
+    protected void onResume() {
+
+        recoverMoods();
+        super.onResume();
+    }
 }
 
 

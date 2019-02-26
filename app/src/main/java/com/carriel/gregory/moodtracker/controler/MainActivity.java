@@ -16,6 +16,9 @@ import com.carriel.gregory.moodtracker.R;
 import com.carriel.gregory.moodtracker.controler.utils.CustumDialog;
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 import com.carriel.gregory.moodtracker.controler.baseSQL.SaveMoodData;
@@ -23,12 +26,13 @@ import com.carriel.gregory.moodtracker.controler.baseSQL.SaveMoodData;
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     //*******LOG********************
-    private final String TAG= "MessageMood:Main";
+    private final String TAG= "MoodMessage:Main";
 
     private static String mMood ="";
     private static String mComment ="";
     private SharedPreferences mSharedPreferences;
     private GestureDetector mGestureDetector;
+    private boolean isClick=false;
 
     //*****counteur mMood*******
     private int mCountMood =0;
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
                 //*****record data******
                 mSaveMoodData.recordMood(mMood, mComment, new Date());
+                Log.d(TAG, "onClick: record here");
 
                 //******hide popup*************
                 mCustumDialog.hide();
@@ -215,12 +220,14 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      * @param view button history
      */
     public void buttonHistory(View view) {
+        isClick=true;
         Intent intentHistory = new Intent(MainActivity.this, HistoryActivity.class);
         startActivity(intentHistory);
     }
 
     @Override
     protected void onResume() {
+        isClick=false;
         controlMood(); //check if current mMood
         super.onResume();
     }
@@ -230,11 +237,12 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     @Override
     protected void onPause() {
-        mSharedPreferences.edit().putInt(SHARED_COUNTMOOD, mCountMood).apply(); //save number countMood
-        if(!mMood.equals(BONNE_HUMEUR)){  //if current mood  isn't default mood
-            mSaveMoodData.recordMood(mMood, mComment, new Date());  //record current data in DB
-        }
-        super.onPause();
+            mSharedPreferences.edit().putString("date",MyToolsDate.convertDatetoString(new Date()));
+            mSharedPreferences.edit().putInt(SHARED_COUNTMOOD, mCountMood).apply(); //save number countMood
+            if(!mMood.equals(BONNE_HUMEUR) && !isClick){  //if current mood  isn't default mood
+                mSaveMoodData.recordMood(mMood, mComment, new Date());  //record current data in DB
+            }
+       super.onPause();
     }
 
     /**
@@ -245,13 +253,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,0);  //recover last Mood save and if don't find recover 0
 
         if(numberID >0 || countMood != 0){  //check if data stored on BD and if mood has changed
-            Log.d(TAG, "controlMood: BD is greater than 0 ou l'humeur n'est plus l'humeur par défaut");
             if(MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()) ==0){ //if last date recorded is current day
                 mCustumDialog.setEditTextSubTitle(mSaveMoodData.recoverLastComment()); //recover last comment from table
                 mCountMood=countMood; //recover Mood from SharedPreferences
             }else{  // restore mMood and mComment by default
                 mCustumDialog.setEditTextSubTitle("");
                 mCountMood=0;
+                if(mCustumDialog.isShowing()){
+                    mCustumDialog.cancel();
+                }
             }
         }
         switchMood();
