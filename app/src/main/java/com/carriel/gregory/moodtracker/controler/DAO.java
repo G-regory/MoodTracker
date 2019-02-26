@@ -1,15 +1,15 @@
-package com.carriel.gregory.moodtracker.controler.baseSQL;
+package com.carriel.gregory.moodtracker.controler;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.carriel.gregory.moodtracker.controler.baseSQL.MySQLiteOpenHelper;
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
 import java.util.Date;
 import java.util.List;
 
-public class SaveMoodData {
+public class DAO {
 
     private final String TAG= "MoodMessage: SaveMood";
 
@@ -21,18 +21,18 @@ public class SaveMoodData {
 
     private static MySQLiteOpenHelper mMySQLiteOpenHelper;
 
-    private static SaveMoodData ourInstance;
+    private static DAO ourInstance;
 
-    public static SaveMoodData getInstance(Context context) {
+    // --- SINGLETON ---
+    private DAO() {}
+
+    public static DAO getInstance(Context context) {
         if(ourInstance==null){
-            ourInstance= new SaveMoodData();
+            ourInstance= new DAO();
         }
         mMySQLiteOpenHelper=new MySQLiteOpenHelper(context);
         return ourInstance;
     }
-
-    // --- SINGLETON ---
-    private SaveMoodData() {}
 
     /**
      * recovers last Mood, check Number ID already present in the table
@@ -103,7 +103,7 @@ public class SaveMoodData {
         for(int i=pNbrDay-1; i>0;i--){
             mEmptyMood = new StoreMood("", "", MyToolsDate.substractDay(i));
             mMySQLiteOpenHelper.recordDate(mEmptyMood);
-         }
+        }
     }
 
     /**

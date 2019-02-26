@@ -5,14 +5,12 @@ import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carriel.gregory.moodtracker.R;
-import com.carriel.gregory.moodtracker.controler.baseSQL.SaveMoodData;
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
@@ -31,7 +29,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private final String TAG = "MoodMessage:History";
     private List<StoreMood> mStoreMoods;
-    private SaveMoodData mSaveMoodData;
+    private DAO mDAO;
 
     private ConstraintLayout mConstraints;
     private ConstraintSet mConstraintSet;
@@ -55,7 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
         mConstraints=findViewById(R.id.activity_history_constraint_layout);
         mTextViewConsole =findViewById(R.id.activity_history_empty_txt);
         mConstraintSet= new ConstraintSet();
-        mSaveMoodData=SaveMoodData.getInstance(this);
+        mDAO = DAO.getInstance(this);
     }
 
     /**
@@ -65,18 +63,18 @@ public class HistoryActivity extends AppCompatActivity {
      * loop on each ID in this table, show a different color for each Mood and positions by date
      */
     public void recoverMoods(){
-        int NumberID=mSaveMoodData.returnNumberId(); //recover number ID in table
+        int NumberID= mDAO.returnNumberId(); //recover number ID in table
 
         if (NumberID>0){ //if the number ID is greater than 0
-            int answerDifDay =(int) MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()); //compare current date and last date recorded, and return the difference day
+            int answerDifDay =(int) MyToolsDate.compareDate(new Date(), mDAO.getLastDate()); //compare current date and last date recorded, and return the difference day
 
             if(NumberID ==1 && answerDifDay ==0){ //if current date
                 mTextViewConsole.setVisibility(View.VISIBLE);  //show msg empty history
             }else{ //hide msg and show result
                 mTextViewConsole.setVisibility(View.INVISIBLE);  //hide msg empty history
 
-                mSaveMoodData.addEmptyMood(answerDifDay);
-                mStoreMoods = mSaveMoodData.restaureListMood(); //recover list data
+                mDAO.addEmptyMood(answerDifDay);
+                mStoreMoods = mDAO.restaureListMood(); //recover list data
                 int maxIndexMood = countMoodList(); //count number of items in the list
 
                 //get the list of all layouts

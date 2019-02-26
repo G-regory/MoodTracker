@@ -16,12 +16,7 @@ import com.carriel.gregory.moodtracker.R;
 import com.carriel.gregory.moodtracker.controler.utils.CustumDialog;
 import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
-
-import com.carriel.gregory.moodtracker.controler.baseSQL.SaveMoodData;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
@@ -52,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private CustumDialog mCustumDialog;
 
     //*******access point to save & restore data to the DB
-    private SaveMoodData mSaveMoodData;
+    private DAO mDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mConstraintLayout=findViewById(R.id.activity_main_layout);
         mGestureDetector= new GestureDetector(this,this);
         mCustumDialog= new CustumDialog(this);
-        mSaveMoodData=SaveMoodData.getInstance(this);
+        mDAO = DAO.getInstance(this);
         mSharedPreferences=getPreferences(MODE_PRIVATE);
     }
 
@@ -88,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 mComment = mCustumDialog.getEditTextSubTitle().getText().toString();
 
                 //*****record data******
-                mSaveMoodData.recordMood(mMood, mComment, new Date());
+                mDAO.recordMood(mMood, mComment, new Date());
                 Log.d(TAG, "onClick: record here");
 
                 //******hide popup*************
@@ -237,24 +232,24 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     @Override
     protected void onPause() {
-            mSharedPreferences.edit().putString("date",MyToolsDate.convertDatetoString(new Date()));
-            mSharedPreferences.edit().putInt(SHARED_COUNTMOOD, mCountMood).apply(); //save number countMood
-            if(!mMood.equals(BONNE_HUMEUR) && !isClick){  //if current mood  isn't default mood
-                mSaveMoodData.recordMood(mMood, mComment, new Date());  //record current data in DB
-            }
-       super.onPause();
+        mSharedPreferences.edit().putString("date",MyToolsDate.convertDatetoString(new Date()));
+        mSharedPreferences.edit().putInt(SHARED_COUNTMOOD, mCountMood).apply(); //save number countMood
+        if(!mMood.equals(BONNE_HUMEUR) && !isClick){  //if current mood  isn't default mood
+            mDAO.recordMood(mMood, mComment, new Date());  //record current data in DB
+        }
+        super.onPause();
     }
 
     /**
      * check current mMood and current mComment
      */
     private void controlMood() {
-        int numberID=mSaveMoodData.returnNumberId();  //recover number ID from table
+        int numberID= mDAO.returnNumberId();  //recover number ID from table
         int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,0);  //recover last countMood saved
 
         if(numberID >0 || countMood != 0){  //check if data stored on BD and if mood has changed
-            if(MyToolsDate.compareDate(new Date(),mSaveMoodData.getLastDate()) ==0){ //if last date recorded and current day are equal
-                mCustumDialog.setEditTextSubTitle(mSaveMoodData.recoverLastComment()); //recover last comment from table
+            if(MyToolsDate.compareDate(new Date(), mDAO.getLastDate()) ==0){ //if last date recorded and current day are equal
+                mCustumDialog.setEditTextSubTitle(mDAO.recoverLastComment()); //recover last comment from table
                 mCountMood=countMood; //recover Mood from SharedPreferences
             }else{  // restore mMood and mComment by default
                 mCustumDialog.setEditTextSubTitle("");
