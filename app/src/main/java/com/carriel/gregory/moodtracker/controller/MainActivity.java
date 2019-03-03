@@ -1,4 +1,4 @@
-package com.carriel.gregory.moodtracker.controler;
+package com.carriel.gregory.moodtracker.controller;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.carriel.gregory.moodtracker.R;
-import com.carriel.gregory.moodtracker.controler.utils.CustumDialog;
-import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
+import com.carriel.gregory.moodtracker.controller.utils.CustumDialog;
+import com.carriel.gregory.moodtracker.controller.utils.MyToolsDate;
 
 import java.util.Date;
 
@@ -179,27 +179,27 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             case 1:
                 mMood = SUPER_BONNE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_super_happy);
-                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
+                mConstraintLayout.setBackgroundResource(R.color.banana_yellow);
                 break;
             case 0:
                 mMood = BONNE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_happy);
-                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
+                mConstraintLayout.setBackgroundResource(R.color.light_sage);
                 break;
             case -1:
                 mMood = HUMEUR_NORMALE;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_normal);
-                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
+                mConstraintLayout.setBackgroundResource(R.color.cornflower_blue_65);
                 break;
             case -2:
                 mMood = MAUVAISE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_disappointed);
-                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
+                mConstraintLayout.setBackgroundResource(R.color.warm_grey);
                 break;
             case -3:
                 mMood = TRES_MAUVAISE_HUMEUR;
                 mImageViewSmiley.setImageResource(R.drawable.smiley_sad);
-                mConstraintLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
+                mConstraintLayout.setBackgroundResource(R.color.faded_red);
                 break;
         }
     }
@@ -216,7 +216,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     public void buttonHistory(View view) {
         isClick=true;
-        Intent intentHistory = new Intent(MainActivity.this, HistoryActivity.class);
+        Intent intentHistory = new Intent(MainActivity.this, TestDynamic.class);
+
         startActivity(intentHistory);
     }
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_sage"
-    tools:context=".controler.MainActivity">
+    tools:context=".controller.MainActivity">
 
     <ImageView
         android:id="@+id/activity_main_smiley_img"

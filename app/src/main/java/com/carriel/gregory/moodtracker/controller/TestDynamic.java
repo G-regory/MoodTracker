@@ -45,7 +45,6 @@ public class TestDynamic extends AppCompatActivity {
         setContentView(R.layout.activity_test_dynamique);
         mLinearLayout=findViewById(R.id.linearlayout);
         mDAO = DAO.getInstance(this);
-
         catchSizeScreen(mLinearLayout);  //measure screen size
     }
 
@@ -85,9 +84,9 @@ public class TestDynamic extends AppCompatActivity {
             }else{ // more 1 ID & the last day isn't
                 mDAO.addEmptyMood(answerDifDay);
                 mStoreMoods = mDAO.restaureListMood(); //recover list data
-                final int itemsListMood = countMoodList(); //count number of items in the list
+                final int elementMoodList = countMoodList(); //count number of items in the list
 
-                displayHistory(itemsListMood);
+                displayHistory(elementMoodList);
             }
         }else{
             Toast.makeText(this, "History vide", Toast.LENGTH_SHORT).show(); //display msg history empty
@@ -122,10 +121,8 @@ public class TestDynamic extends AppCompatActivity {
                 mLinearLayout.addView(mRelativeLayout,mLinearLayout.getChildCount() - i);
                 mRelativeLayout.addView(mTextView);
                 checkComment(mStoreMoods.get(i).getComment(),mButton, mRelativeLayout);
-
             }else{
                 createEmptyLayout(i);
-
             }
         }
     }
@@ -186,7 +183,6 @@ public class TestDynamic extends AppCompatActivity {
     private void createEmptyLayout(int dayNotRecord) {
         ViewGroup.LayoutParams layoutEmptyParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, countDayForHeightLayout());
         RelativeLayout mRelativeLayoutEmpty=new RelativeLayout(TestDynamic.this);
-
         mRelativeLayoutEmpty.setLayoutParams(layoutEmptyParams);
         mRelativeLayoutEmpty.setAlpha( 0.9f ); //transparent color
         mLinearLayout.addView(mRelativeLayoutEmpty,mLinearLayout.getChildCount() - dayNotRecord);
@@ -201,18 +197,19 @@ public class TestDynamic extends AppCompatActivity {
      */
     private int countMoodList(){
         int numberId=0;
-        int totalNumberListMood;
+        int totalNumberMoodList;
 
-        if(mStoreMoods==null){} // if mood list and empty
-        else{//else count number list
-            totalNumberListMood=mStoreMoods.size();
-            if(totalNumberListMood <TOTAL_NUMBER_DAY){
+        if(mStoreMoods!=null){
+            //else count number list
+            totalNumberMoodList=mStoreMoods.size();
+            if(totalNumberMoodList <TOTAL_NUMBER_DAY){
                 numberId=mStoreMoods.size();
                 emptySpace=TOTAL_NUMBER_DAY-numberId;
             }else {
                 numberId=TOTAL_NUMBER_DAY;
             }
         }
+
         return numberId;
     }
 

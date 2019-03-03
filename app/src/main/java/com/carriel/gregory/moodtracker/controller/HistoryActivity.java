@@ -1,4 +1,4 @@
-package com.carriel.gregory.moodtracker.controler;
+package com.carriel.gregory.moodtracker.controller;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carriel.gregory.moodtracker.R;
-import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
+import com.carriel.gregory.moodtracker.controller.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
 import java.util.ArrayList;
@@ -127,10 +127,9 @@ public class HistoryActivity extends AppCompatActivity {
      */
     private void showMood(RelativeLayout pLayout, ImageButton pImageButton, StoreMood pStoreMood, Integer pIdLayout) {
         mConstraintSet.clone(mConstraints);
-        String Mood="";
-        String comment="";
-        Mood=pStoreMood.getMood();
-        comment=pStoreMood.getComment();
+        String Mood=pStoreMood.getMood();
+        String comment=pStoreMood.getComment();
+
         List<Integer> listIdGuideLine= returnListIdGuideLine();
 
         switch (Mood){

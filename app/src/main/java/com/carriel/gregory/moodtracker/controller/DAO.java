@@ -1,9 +1,9 @@
-package com.carriel.gregory.moodtracker.controler;
+package com.carriel.gregory.moodtracker.controller;
 
 import android.content.Context;
 
-import com.carriel.gregory.moodtracker.controler.baseSQL.MySQLiteOpenHelper;
-import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
+import com.carriel.gregory.moodtracker.controller.baseSQL.MySQLiteOpenHelper;
+import com.carriel.gregory.moodtracker.controller.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
 import java.util.Date;

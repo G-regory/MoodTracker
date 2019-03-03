@@ -1,4 +1,4 @@
-package com.carriel.gregory.moodtracker.controler.baseSQL;
+package com.carriel.gregory.moodtracker.controller.baseSQL;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.carriel.gregory.moodtracker.controler.utils.MyToolsDate;
+import com.carriel.gregory.moodtracker.controller.utils.MyToolsDate;
 import com.carriel.gregory.moodtracker.model.StoreMood;
 
 import java.util.ArrayList;
@@ -187,8 +187,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     public void updateData(StoreMood mStoreMood) {
         mSQLiteDatabase = this.getWritableDatabase();
         String where = COLUMN_ID + "=" + returnNbreIDInTable();
-        String mMood="";
-        mMood = controlMood(mStoreMood);
+        String mMood=controlMood(mStoreMood);
 
         String currentDate= MyToolsDate.convertDatetoString(mStoreMood.getDate());
         ContentValues mContentValues = new ContentValues();
