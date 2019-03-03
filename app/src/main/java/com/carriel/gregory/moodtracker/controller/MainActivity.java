@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private boolean isClick=false;
 
     //*****counteur mMood*******
-    private int mCountMood =0;
+    private int mCountMood =1;
 
     //***********Constant String Mood*************************
     private final String SUPER_BONNE_HUMEUR = "Super bonne humeur";
@@ -84,12 +84,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
                 //*****record data******
                 mDAO.recordMood(mMood, mComment, new Date());
-                Log.d(TAG, "onClick: record here");
 
                 //******hide popup*************
                 mCustumDialog.hide();
 
-                //***affiche msg Toat*********
+                //***display msg Toast*********
                 Toast.makeText(getApplicationContext(),"Commentaire enregistré",Toast.LENGTH_SHORT).show();
             }
         });
@@ -158,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     private void checkMotion(float verticalFlingEvent) {
         if(verticalFlingEvent > 0){
-            if(mCountMood == 1) {
+            if(mCountMood == 0) {
             }else{
-                mCountMood++;
+                mCountMood--;
             }
         }else {
-            if(mCountMood == -3) {
+            if(mCountMood == 4) {
             }else {
-                mCountMood--;
+                mCountMood++;
             }
         }
     }
@@ -175,32 +174,18 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      *
      */
     private void switchMood() {
-        switch (mCountMood){
-            case 1:
-                mMood = SUPER_BONNE_HUMEUR;
-                mImageViewSmiley.setImageResource(R.drawable.smiley_super_happy);
-                mConstraintLayout.setBackgroundResource(R.color.banana_yellow);
-                break;
-            case 0:
-                mMood = BONNE_HUMEUR;
-                mImageViewSmiley.setImageResource(R.drawable.smiley_happy);
-                mConstraintLayout.setBackgroundResource(R.color.light_sage);
-                break;
-            case -1:
-                mMood = HUMEUR_NORMALE;
-                mImageViewSmiley.setImageResource(R.drawable.smiley_normal);
-                mConstraintLayout.setBackgroundResource(R.color.cornflower_blue_65);
-                break;
-            case -2:
-                mMood = MAUVAISE_HUMEUR;
-                mImageViewSmiley.setImageResource(R.drawable.smiley_disappointed);
-                mConstraintLayout.setBackgroundResource(R.color.warm_grey);
-                break;
-            case -3:
-                mMood = TRES_MAUVAISE_HUMEUR;
-                mImageViewSmiley.setImageResource(R.drawable.smiley_sad);
-                mConstraintLayout.setBackgroundResource(R.color.faded_red);
-                break;
+        int [] arrayDrawable={R.drawable.smiley_super_happy, R.drawable.smiley_happy, R.drawable.smiley_normal, R.drawable.smiley_disappointed, R.drawable.smiley_sad};
+
+        int [] arrayColor={R.color.banana_yellow, R.color.light_sage, R.color.cornflower_blue_65, R.color.warm_grey, R.color.faded_red};
+
+        String [] sentenceMood= {SUPER_BONNE_HUMEUR, BONNE_HUMEUR, HUMEUR_NORMALE, MAUVAISE_HUMEUR, TRES_MAUVAISE_HUMEUR};
+
+        for(int i=0;i<sentenceMood.length;i++){
+            if(mCountMood == i){
+                mMood=sentenceMood[i];
+                mImageViewSmiley.setImageResource(arrayDrawable[i]);
+                mConstraintLayout.setBackgroundResource(arrayColor[i]);
+            }
         }
     }
 
@@ -246,15 +231,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     private void controlMood() {
         int numberID= mDAO.returnNumberId();  //recover number ID from table
-        int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,0);  //recover last countMood saved
+        int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,1);  //recover last countMood saved
 
-        if(numberID >0 || countMood != 0){  //check if data stored on BD and if mood has changed
+        if(numberID >0 || countMood != 1){  //check if data stored on BD and if mood has changed
             if(MyToolsDate.compareDate(new Date(), mDAO.getLastDate()) ==0){ //if last date recorded and current day are equal
                 mCustumDialog.setEditTextSubTitle(mDAO.recoverLastComment()); //recover last comment from table
                 mCountMood=countMood; //recover Mood from SharedPreferences
             }else{  // restore mMood and mComment by default
                 mCustumDialog.setEditTextSubTitle("");
-                mCountMood=0;
+                mCountMood=1;
                 if(mCustumDialog.isShowing()){
                     mCustumDialog.cancel();
                 }
