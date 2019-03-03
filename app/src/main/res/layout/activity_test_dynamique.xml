@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".controller.TestDynamique">
+    tools:context=".controller.TestDynamic">
 
     <LinearLayout
         android:id="@+id/linearlayout"
@@ -24,17 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
-        <!--<TextView-->
-            <!--android:id="@+id/activity_test_empty_txt"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:text="@string/historique_empty"-->
-            <!--android:textAppearance="@style/TextAppearance.AppCompat.Button"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:visibility="visible" />-->
-
-
 
 
     </LinearLayout>

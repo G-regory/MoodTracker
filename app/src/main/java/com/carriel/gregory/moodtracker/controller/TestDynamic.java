@@ -21,21 +21,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TestDynamique extends AppCompatActivity {
+public class TestDynamic extends AppCompatActivity {
 
     private final String SUPER_BONNE_HUMEUR = "Super bonne humeur";
     private final String BONNE_HUMEUR = "Bonne humeur";
     private final String HUMEUR_NORMALE = "Humeur normale";
     private final String MAUVAISE_HUMEUR = "Mauvaise humeur";
     private final String TRES_MAUVAISE_HUMEUR = "Très mauvaise humeur";
-    private final int TOTAL_NUMBER_DAY = 7;
+    public final int TOTAL_NUMBER_DAY = 7;
 
     private final String TAG = "MoodMessage:History";
-    private int widthScreen;
-    private int heightScreen;
-    private int emptySpace;
+    public int widthScreen;
+    public int heightScreen;
+    public LinearLayout mLinearLayout;
     private List<StoreMood> mStoreMoods;
-    private LinearLayout mLinearLayout;
+    private int emptySpace; //
 
     private DAO mDAO;
 
@@ -43,8 +43,10 @@ public class TestDynamique extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_dynamique);
-        init();
-        catchSizeScreen();
+        mLinearLayout=findViewById(R.id.linearlayout);
+        mDAO = DAO.getInstance(this);
+
+        catchSizeScreen(mLinearLayout);  //measure screen size
     }
 
     /**
@@ -52,22 +54,18 @@ public class TestDynamique extends AppCompatActivity {
      * the width screen in widthScreen
      * and
      * the height screen in heightScreen
+     * @param viewGroup
      */
-    private void catchSizeScreen() {
-        mLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    private void catchSizeScreen(final ViewGroup viewGroup) {
+        viewGroup.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mLinearLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                heightScreen= mLinearLayout.getHeight(); //height is ready
-                widthScreen=mLinearLayout.getWidth();   //width is ready
+                viewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                heightScreen= viewGroup.getHeight(); //height is ready
+                widthScreen=viewGroup.getWidth();   //width is ready
                 recoverMoods();
             }
         });
-    }
-
-    private void init() {
-        mLinearLayout=findViewById(R.id.linearlayout);
-        mDAO = DAO.getInstance(this);
     }
 
     /**
@@ -82,17 +80,14 @@ public class TestDynamique extends AppCompatActivity {
         if (NumberID>0){ //if the number ID is greater than 0
             int answerDifDay =(int) MyToolsDate.compareDate(new Date(), mDAO.getLastDate()); //compare current date and last date recorded, and return the difference day
 
-            if(NumberID ==1 && answerDifDay ==0){ //if current date
-
-                Toast.makeText(this, "History vide", Toast.LENGTH_SHORT).show();//
-
-            }else{
-
+            if(NumberID ==1 && answerDifDay ==0){ //if there is 1 ID in table & the last is current date
+                Toast.makeText(this, "History vide", Toast.LENGTH_SHORT).show(); //Toast msg
+            }else{ // more 1 ID & the last day isn't
                 mDAO.addEmptyMood(answerDifDay);
                 mStoreMoods = mDAO.restaureListMood(); //recover list data
-                final int maxIndexMood = countMoodList(); //count number of items in the list
+                final int itemsListMood = countMoodList(); //count number of items in the list
 
-                displayHistory(maxIndexMood);
+                displayHistory(itemsListMood);
             }
         }else{
             Toast.makeText(this, "History vide", Toast.LENGTH_SHORT).show(); //display msg history empty
@@ -101,70 +96,69 @@ public class TestDynamique extends AppCompatActivity {
 
     /**
      * display history in the view
-     * @param maxIndexMood
+     * @param itemsListMood
      */
-    private void displayHistory(int maxIndexMood) {
-
+    private void displayHistory(int itemsListMood) {
         Map<String, Integer> moodMap = new HashMap<>();
-        int[] color={R.color.faded_red, R.color.warm_grey, R.color.cornflower_blue_65, R.color.light_sage, R.color.banana_yellow};
+        String [] sentenceMood= {TRES_MAUVAISE_HUMEUR, MAUVAISE_HUMEUR, HUMEUR_NORMALE, BONNE_HUMEUR, SUPER_BONNE_HUMEUR};
+        int[] arrayColor={R.color.faded_red, R.color.warm_grey, R.color.cornflower_blue_65, R.color.light_sage, R.color.banana_yellow};
 
-        int [] sentence={R.string.hier, R.string.avant_hier, R.string.trois_jour, R.string.quatre_jour, R.string.cinq_jour,R.string.six_jour,R.string.une_semaine};
+        for(int i=0; i<sentenceMood.length;i++){ //loop for input sentenceMood in Map moodMap
+            moodMap.put(sentenceMood[i], i);// key is an item of sentenceMood and value is an number of arrayColor
+        }
 
-        moodMap.put(SUPER_BONNE_HUMEUR, 4);
-        moodMap.put(BONNE_HUMEUR, 3);
-        moodMap.put(HUMEUR_NORMALE, 2);
-        moodMap.put(MAUVAISE_HUMEUR, 1);
-        moodMap.put(TRES_MAUVAISE_HUMEUR, 0);
+        int [] sentenceDayOfWeek={R.string.hier, R.string.avant_hier, R.string.trois_jour, R.string.quatre_jour, R.string.cinq_jour,R.string.six_jour,R.string.une_semaine};
 
-        int j=0;
-        for(int i=0; i<TOTAL_NUMBER_DAY;i++){
-            if(i>=TOTAL_NUMBER_DAY-emptySpace) {
+        for(int i=0; i<TOTAL_NUMBER_DAY;i++){ //loop 7 times
+            if(i<itemsListMood){
+                String mood=mStoreMoods.get(i).getMood();
+                int countMood= moodMap.get(mood);
+                RelativeLayout mRelativeLayout = getRelativeLayout(arrayColor[countMood],moodMap.get(mood));
+
+                TextView mTextView = getTextView(sentenceDayOfWeek[i]);
+
+                ImageButton mButton = getImageButton();
+
+                mLinearLayout.addView(mRelativeLayout,mLinearLayout.getChildCount() - i);
+                mRelativeLayout.addView(mTextView);
+                checkComment(mStoreMoods.get(i).getComment(),mButton, mRelativeLayout);
+
+            }else{
                 createEmptyLayout(i);
-            }else {
-                if(i<maxIndexMood){
-                    String mood=mStoreMoods.get(i).getMood();
-                    int countMood= moodMap.get(mood);
-                    RelativeLayout mRelativeLayout = getRelativeLayout(color[countMood],moodMap.get(mood));
 
-                    TextView mTextView = getTextView(sentence[i]);
-
-                    ImageButton mButton = getImageButton(mStoreMoods.get(i).getComment());
-                    checkComment(mStoreMoods.get(i).getComment(),mButton, mRelativeLayout);
-
-
-                    mLinearLayout.addView(mRelativeLayout,mLinearLayout.getChildCount() - i);
-                    mRelativeLayout.addView(mTextView);
-                }
             }
         }
     }
+
     /**
      * create a widget relative layout with params
-     * @param resid number of mood
-     * @param integer
+     * @param colorLayout number of mood
+     * @param positionMood
      * @return
      */
-    private RelativeLayout getRelativeLayout(int resid, Integer integer) {
-        ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(countMoodForWidthLayout(integer), countDayForHeightLayout());
-        RelativeLayout mRelativeLayout=new RelativeLayout(TestDynamique.this);
+    private RelativeLayout getRelativeLayout(int colorLayout, Integer positionMood) {
+        ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(countMoodForWidthLayout(positionMood), countDayForHeightLayout());
+        RelativeLayout mRelativeLayout=new RelativeLayout(TestDynamic.this);
         mRelativeLayout.setLayoutParams(layoutParams);
-        mRelativeLayout.setBackgroundResource(resid);
+        mRelativeLayout.setBackgroundResource(colorLayout);
+
         return mRelativeLayout;
     }
 
     /**
      * create a widget textview with params
-     * @param resid number day to display
+     * @param idSentenceDayOfWeek number day to display
      * @return
      */
-    private TextView getTextView(int resid) {
+    private TextView getTextView(int idSentenceDayOfWeek) {
         ViewGroup.LayoutParams textParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView mTextView=new TextView(TestDynamique.this);
+        TextView mTextView=new TextView(TestDynamic.this);
         mTextView.setTextAppearance(this, R.style.TextHistoryStyle);
-        mTextView.setId(R.id.text);
         ((ActionBar.LayoutParams) textParams).setMarginStart(15);
+        mTextView.setId(R.id.text);
         mTextView.setLayoutParams(textParams);
-        mTextView.setText(resid);
+        mTextView.setText(idSentenceDayOfWeek);
+
         return mTextView;
     }
 
@@ -172,14 +166,13 @@ public class TestDynamique extends AppCompatActivity {
      * create a widget imagebutton with params
      * @return
      */
-    private ImageButton getImageButton(final String pComment) {
+    private ImageButton getImageButton() {
         RelativeLayout.LayoutParams ButtonParams= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         ImageButton mButton = new ImageButton(this);
         ButtonParams.addRule(RelativeLayout.BELOW,R.id.text);
         ButtonParams.setMarginEnd(20);
-        ButtonParams.topMargin=50;
+        ButtonParams.topMargin=15;
         ButtonParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-
         mButton.setLayoutParams(ButtonParams);
         mButton.setBackgroundResource(R.drawable.ic_comment_black_48px);
 
@@ -188,18 +181,16 @@ public class TestDynamique extends AppCompatActivity {
 
     /**
      * create empty RelativeLayout for hide empty space
-     * @param i counter from loop
+     * @param dayNotRecord counter from loop
      */
-    private void createEmptyLayout(int i) {
+    private void createEmptyLayout(int dayNotRecord) {
         ViewGroup.LayoutParams layoutEmptyParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, countDayForHeightLayout());
-        RelativeLayout mRelativeLayoutEmpty=new RelativeLayout(TestDynamique.this);
+        RelativeLayout mRelativeLayoutEmpty=new RelativeLayout(TestDynamic.this);
 
         mRelativeLayoutEmpty.setLayoutParams(layoutEmptyParams);
-        mRelativeLayoutEmpty.setAlpha( 0.9f );
-        mLinearLayout.addView(mRelativeLayoutEmpty,mLinearLayout.getChildCount() - i);
+        mRelativeLayoutEmpty.setAlpha( 0.9f ); //transparent color
+        mLinearLayout.addView(mRelativeLayoutEmpty,mLinearLayout.getChildCount() - dayNotRecord);
     }
-
-
 
     /**
      * check and count mood number
@@ -209,21 +200,20 @@ public class TestDynamique extends AppCompatActivity {
      * @return return number Id
      */
     private int countMoodList(){
-        int nbreId=0;
-        int resultNumberListMood;
+        int numberId=0;
+        int totalNumberListMood;
 
         if(mStoreMoods==null){} // if mood list and empty
-        else{//else count numbre list
-            resultNumberListMood=mStoreMoods.size();
-            if(resultNumberListMood <TOTAL_NUMBER_DAY){
-                nbreId=mStoreMoods.size();
-                emptySpace=TOTAL_NUMBER_DAY-nbreId;
-
+        else{//else count number list
+            totalNumberListMood=mStoreMoods.size();
+            if(totalNumberListMood <TOTAL_NUMBER_DAY){
+                numberId=mStoreMoods.size();
+                emptySpace=TOTAL_NUMBER_DAY-numberId;
             }else {
-                nbreId=TOTAL_NUMBER_DAY;
+                numberId=TOTAL_NUMBER_DAY;
             }
         }
-        return nbreId;
+        return numberId;
     }
 
     /**
@@ -242,7 +232,6 @@ public class TestDynamique extends AppCompatActivity {
      * @return the height distributed according to the number of days
      */
     private int countDayForHeightLayout(){
-
         int sizeforHeightLayout=(this.heightScreen/ TOTAL_NUMBER_DAY);
         return sizeforHeightLayout;
     }
@@ -260,7 +249,7 @@ public class TestDynamique extends AppCompatActivity {
             pImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(TestDynamique.this, pComment, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TestDynamic.this, pComment, Toast.LENGTH_SHORT).show();
                 }
             });
         }
