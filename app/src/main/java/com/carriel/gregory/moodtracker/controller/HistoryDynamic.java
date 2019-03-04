@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TestDynamic extends AppCompatActivity {
+public class HistoryDynamic extends AppCompatActivity {
 
     private final String SUPER_BONNE_HUMEUR = "Super bonne humeur";
     private final String BONNE_HUMEUR = "Bonne humeur";
@@ -42,7 +42,7 @@ public class TestDynamic extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_dynamique);
+        setContentView(R.layout.activity_history_dynamique);
         mLinearLayout=findViewById(R.id.linearlayout);
         mDAO = DAO.getInstance(this);
         catchSizeScreen(mLinearLayout);  //measure screen size
@@ -135,7 +135,7 @@ public class TestDynamic extends AppCompatActivity {
      */
     private RelativeLayout getRelativeLayout(int colorLayout, Integer positionMood) {
         ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(countMoodForWidthLayout(positionMood), countDayForHeightLayout());
-        RelativeLayout mRelativeLayout=new RelativeLayout(TestDynamic.this);
+        RelativeLayout mRelativeLayout=new RelativeLayout(HistoryDynamic.this);
         mRelativeLayout.setLayoutParams(layoutParams);
         mRelativeLayout.setBackgroundResource(colorLayout);
 
@@ -149,7 +149,7 @@ public class TestDynamic extends AppCompatActivity {
      */
     private TextView getTextView(int idSentenceDayOfWeek) {
         ViewGroup.LayoutParams textParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView mTextView=new TextView(TestDynamic.this);
+        TextView mTextView=new TextView(HistoryDynamic.this);
         mTextView.setTextAppearance(this, R.style.TextHistoryStyle);
         ((ActionBar.LayoutParams) textParams).setMarginStart(15);
         mTextView.setId(R.id.text);
@@ -182,7 +182,7 @@ public class TestDynamic extends AppCompatActivity {
      */
     private void createEmptyLayout(int dayNotRecord) {
         ViewGroup.LayoutParams layoutEmptyParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, countDayForHeightLayout());
-        RelativeLayout mRelativeLayoutEmpty=new RelativeLayout(TestDynamic.this);
+        RelativeLayout mRelativeLayoutEmpty=new RelativeLayout(HistoryDynamic.this);
         mRelativeLayoutEmpty.setLayoutParams(layoutEmptyParams);
         mRelativeLayoutEmpty.setAlpha( 0.9f ); //transparent color
         mLinearLayout.addView(mRelativeLayoutEmpty,mLinearLayout.getChildCount() - dayNotRecord);
@@ -246,7 +246,7 @@ public class TestDynamic extends AppCompatActivity {
             pImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(TestDynamic.this, pComment, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HistoryDynamic.this, pComment, Toast.LENGTH_SHORT).show();
                 }
             });
         }

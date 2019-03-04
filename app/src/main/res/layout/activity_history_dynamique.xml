@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".controller.TestDynamic">
+    tools:context=".controller.HistoryDynamic">
 
     <LinearLayout
         android:id="@+id/linearlayout"

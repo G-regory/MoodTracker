@@ -11,3 +11,5 @@
 /build
 /captures
 .externalNativeBuild
+/app/src/main/java/com/carriel/gregory/moodtracker/controller/HistoryActivity.java
+/app/src/main/res/layout/activity_history.xml

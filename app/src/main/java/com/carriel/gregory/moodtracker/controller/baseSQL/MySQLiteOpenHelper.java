@@ -112,7 +112,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * check if current mood is empty
      * if isn't empty, input current Mood
      * else input "Bonne humeur"
-     *
      * @param pStoreMood
      * @return mood
      */
@@ -168,7 +167,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 StoreMood dataStore=new StoreMood(mCursor.getString(mCursor.getColumnIndex(COLUMN_MOOD)),mCursor.getString(mCursor.getColumnIndex(COLUMN_COMMENT)), MyToolsDate.convertStringtoDate(mCursor.getString(mCursor.getColumnIndex(COLUMN_DAY))));  //recover data of the table and store in dataStore object
                 if(!dataStore.getDate().equals(MyToolsDate.convertStringtoDate(todayString))){
                         storeDatas.add(dataStore);//store each object in the list storeMood except current day
-
                 }
             }
             mCursor.close();

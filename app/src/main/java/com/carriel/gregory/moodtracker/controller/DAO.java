@@ -111,7 +111,7 @@ public class DAO {
      * @return
      */
     public  int returnNumberId(){
-        int numId=0;
+        int numId;
         numId=mMySQLiteOpenHelper.returnNbreIDInTable();
         return numId;
     }

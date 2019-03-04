@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -133,9 +132,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     /**
      * informed event when the finger stay on the screen with this position of beginning motion, of end motion and speed movement
      * @param event1 position x and Y of start of touch
-     * @param event2 position x and Y of end dof touch
-     * @param velocityX  speed x
-     * @param velocityY  speed y
+     * @param event2 position x and Y of end of touch
      * @return
      */
     @Override
@@ -201,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     public void buttonHistory(View view) {
         isClick=true;
-        Intent intentHistory = new Intent(MainActivity.this, TestDynamic.class);
+        Intent intentHistory = new Intent(MainActivity.this, HistoryDynamic.class);
 
         startActivity(intentHistory);
     }

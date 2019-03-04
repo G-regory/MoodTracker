@@ -20,7 +20,6 @@ public abstract class MyToolsDate {
      * @return date in the format string
      */
     public static String convertDatetoString(Date uneDate){
-
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String date1 = formatter.format(uneDate);
 
@@ -33,7 +32,6 @@ public abstract class MyToolsDate {
      * @return date in the format Date
      */
     public static Date convertStringtoDate(String uneDate){
-
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateConvert = null;
         try {
