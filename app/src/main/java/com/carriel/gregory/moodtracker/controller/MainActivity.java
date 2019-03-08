@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     //*********Views**************
     private ImageView mImageViewSmiley;
     private ConstraintLayout mConstraintLayout;
-    private CustumDialog mCustumDialog;
+    private CustumDialog mCustomDialog;
 
     //*******access point to save & restore data to the DB
     private DAO mDAO;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mImageViewSmiley=findViewById(R.id.activity_main_smiley_img);
         mConstraintLayout=findViewById(R.id.activity_main_layout);
         mGestureDetector= new GestureDetector(this,this);
-        mCustumDialog= new CustumDialog(this);
+        mCustomDialog = new CustumDialog(this);
         mDAO = DAO.getInstance(this);
         mSharedPreferences=getPreferences(MODE_PRIVATE);
     }
@@ -68,24 +68,24 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      * show popup dialog on clic buttonNote
      */
     public void buttonNote(View view) {
-        mCustumDialog.setTitle("Commentaire"); //title of popup
+        mCustomDialog.setTitle("Commentaire"); //title of popup
 
         /**
          * events validate button
          * record mComment, mMood and date, show msg toast and hide popup
          */
-        mCustumDialog.getOkButton().setOnClickListener(new View.OnClickListener() {
+        mCustomDialog.getOkButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //*****keep mComment***********
-                mComment = mCustumDialog.getEditTextSubTitle().getText().toString();
+                mComment = mCustomDialog.getEditTextSubTitle().getText().toString();
 
                 //*****record data******
                 mDAO.recordMood(mMood, mComment, new Date());
 
                 //******hide popup*************
-                mCustumDialog.hide();
+                mCustomDialog.hide();
 
                 //***display msg Toast*********
                 Toast.makeText(getApplicationContext(),"Commentaire enregistré",Toast.LENGTH_SHORT).show();
@@ -96,16 +96,16 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
          * event clic button cancel
          * show msg toast and close popup
          */
-        mCustumDialog.getCancelButton().setOnClickListener(new View.OnClickListener() {
+        mCustomDialog.getCancelButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"Commentaire annulé",Toast.LENGTH_SHORT).show();
                 //***close popup*******
-                mCustumDialog.cancel();
+                mCustomDialog.cancel();
             }
         });
         //start screen popup
-        mCustumDialog.build();
+        mCustomDialog.build();
     }
 
     @Override
@@ -230,15 +230,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         int numberID= mDAO.returnNumberId();  //recover number ID from table
         int countMood = mSharedPreferences.getInt(SHARED_COUNTMOOD,1);  //recover last countMood saved
 
-        if(numberID >0 || countMood != 1){  //check if data stored on BD and if mood has changed
+        if(numberID >0 && countMood != 1){  //check if data stored on BD and if mood has changed
             if(MyToolsDate.compareDate(new Date(), mDAO.getLastDate()) ==0){ //if last date recorded and current day are equal
-                mCustumDialog.setEditTextSubTitle(mDAO.recoverLastComment()); //recover last comment from table
+                mCustomDialog.setEditTextSubTitle(mDAO.recoverLastComment()); //recover last comment from table
                 mCountMood=countMood; //recover Mood from SharedPreferences
             }else{  // restore mMood and mComment by default
-                mCustumDialog.setEditTextSubTitle("");
+                mCustomDialog.setEditTextSubTitle("");
                 mCountMood=1;
-                if(mCustumDialog.isShowing()){
-                    mCustumDialog.cancel();
+                if(mCustomDialog.isShowing()){
+                    mCustomDialog.cancel();
                 }
             }
         }

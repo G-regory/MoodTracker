@@ -35,7 +35,7 @@ public class HistoryDynamic extends AppCompatActivity {
     public int heightScreen;
     public LinearLayout mLinearLayout;
     private List<StoreMood> mStoreMoods;
-    private int emptySpace; //
+    public int emptySpace; //
 
     private DAO mDAO;
 
@@ -43,7 +43,7 @@ public class HistoryDynamic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_dynamique);
-        mLinearLayout=findViewById(R.id.linearlayout);
+        mLinearLayout=findViewById(R.id.linearLayout);
         mDAO = DAO.getInstance(this);
         catchSizeScreen(mLinearLayout);  //measure screen size
     }
@@ -250,6 +250,12 @@ public class HistoryDynamic extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onStop() {
+        finish();
+        super.onStop();
     }
 }
 
