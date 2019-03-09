@@ -3,6 +3,7 @@ package com.carriel.gregory.moodtracker.controller;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -33,6 +34,7 @@ public class HistoryDynamic extends AppCompatActivity {
     private final String TAG = "MoodMessage:History";
     public int widthScreen;
     public int heightScreen;
+    private   int centerPositionButton;
     public LinearLayout mLinearLayout;
     private List<StoreMood> mStoreMoods;
     public int emptySpace; //
@@ -62,6 +64,7 @@ public class HistoryDynamic extends AppCompatActivity {
                 viewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 heightScreen= viewGroup.getHeight(); //height is ready
                 widthScreen=viewGroup.getWidth();   //width is ready
+                centerPositionButton =(heightScreen/TOTAL_NUMBER_DAY)/3;
                 recoverMoods();
             }
         });
@@ -151,7 +154,7 @@ public class HistoryDynamic extends AppCompatActivity {
         ViewGroup.LayoutParams textParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         TextView mTextView=new TextView(HistoryDynamic.this);
         mTextView.setTextAppearance(this, R.style.TextHistoryStyle);
-        ((ActionBar.LayoutParams) textParams).setMarginStart(15);
+        ((ActionBar.LayoutParams) textParams).setMarginStart(10);
         mTextView.setId(R.id.text);
         mTextView.setLayoutParams(textParams);
         mTextView.setText(idSentenceDayOfWeek);
@@ -164,11 +167,10 @@ public class HistoryDynamic extends AppCompatActivity {
      * @return
      */
     private ImageButton getImageButton() {
-        RelativeLayout.LayoutParams ButtonParams= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams ButtonParams= new RelativeLayout.LayoutParams((int)getResources().getDimension(R.dimen.size_width),(int)getResources().getDimension(R.dimen.size_height));
         ImageButton mButton = new ImageButton(this);
-        ButtonParams.addRule(RelativeLayout.BELOW,R.id.text);
-        ButtonParams.setMarginEnd(20);
-        ButtonParams.topMargin=15;
+        ButtonParams.setMarginEnd((int)getResources().getDimension(R.dimen.margin_end_btn_history_activity));
+        ButtonParams.topMargin= centerPositionButton;
         ButtonParams.addRule(RelativeLayout.ALIGN_PARENT_END);
         mButton.setLayoutParams(ButtonParams);
         mButton.setBackgroundResource(R.drawable.ic_comment_black_48px);
@@ -220,8 +222,8 @@ public class HistoryDynamic extends AppCompatActivity {
      */
     private int countMoodForWidthLayout(int  pMoodRecover){
         int TOTAL_NUMBER_MOODS = 5;
-        int sizeforWidthLayout=(this.widthScreen/ TOTAL_NUMBER_MOODS)*(pMoodRecover+1);
-        return sizeforWidthLayout;
+        int sizeForWidthLayout=(this.widthScreen/ TOTAL_NUMBER_MOODS)*(pMoodRecover+1);
+        return sizeForWidthLayout;
     }
 
     /**
@@ -229,8 +231,8 @@ public class HistoryDynamic extends AppCompatActivity {
      * @return the height distributed according to the number of days
      */
     private int countDayForHeightLayout(){
-        int sizeforHeightLayout=(this.heightScreen/ TOTAL_NUMBER_DAY);
-        return sizeforHeightLayout;
+        int sizeForHeightLayout=(this.heightScreen/ TOTAL_NUMBER_DAY);
+        return sizeForHeightLayout;
     }
 
     /**
@@ -252,6 +254,10 @@ public class HistoryDynamic extends AppCompatActivity {
         }
     }
 
+
+    /**
+     *
+     */
     @Override
     protected void onStop() {
         finish();

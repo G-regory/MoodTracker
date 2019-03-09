@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--4.95 - 5.2" nexus 5,5X-->
+
     <!--Activity Main-->
 
     <!--icone accueil-->
@@ -13,13 +15,13 @@
     <!--activity history-->
 
     <!--text history-->
-    <dimen name="text_history">25sp</dimen>
+    <dimen name="text_history">12sp</dimen>
 
     <!--imagebutton-->
-    <dimen name="margin_end_btn_history_activity">6dip</dimen>
-    <dimen name="margin_top_btn_history_activity">15dip</dimen>
-    <dimen name="size_width">50dip</dimen>
-    <dimen name="size_height">46dip</dimen>
+    <dimen name="margin_end_btn_history_activity">8dip</dimen>
+    <dimen name="margin_top_btn_history_activity">8dip</dimen>
+    <dimen name="size_width">25dip</dimen>
+    <dimen name="size_height">22dip</dimen>
 
 
 </resources>

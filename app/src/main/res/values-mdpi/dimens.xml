@@ -13,13 +13,13 @@
     <!--activity history-->
 
     <!--text history-->
-    <dimen name="text_history">25sp</dimen>
+    <dimen name="text_history">12sp</dimen>
 
     <!--imagebutton-->
-    <dimen name="margin_end_btn_history_activity">6dip</dimen>
-    <dimen name="margin_top_btn_history_activity">15dip</dimen>
-    <dimen name="size_width">50dip</dimen>
-    <dimen name="size_height">46dip</dimen>
+    <dimen name="margin_end_btn_history_activity">2dip</dimen>
+    <dimen name="margin_top_btn_history_activity">10dip</dimen>
+    <dimen name="size_width">20dip</dimen>
+    <dimen name="size_height">18dip</dimen>
 
 
 </resources>

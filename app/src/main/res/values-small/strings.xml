@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="sentence_share_mood">Hello, voici mon humeur que je te partage via ma super application MoodTracker: </string>
-    <string name="title_share_mood">Partage mon humeur du jour</string>
-</resources>
