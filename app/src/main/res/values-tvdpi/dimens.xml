@@ -5,11 +5,11 @@
 
     <!--Activity Main-->
 
-    <!--icone accueil-->
-    <dimen name="margin_start_button_accueil">16dp</dimen>
-    <dimen name="margin_end_button_accueil">16dp</dimen>
-    <dimen name="margin_buttom_button_accueil">16dp</dimen>
-    <dimen name="margin_top_button_accueil">24dp</dimen>
+    <!--icon home-->
+    <dimen name="margin_start_button_home">16dp</dimen>
+    <dimen name="margin_end_button_home">16dp</dimen>
+    <dimen name="margin_bottom_button_home">16dp</dimen>
+    <dimen name="margin_top_button_home">24dp</dimen>
 
 
     <!--activity history-->

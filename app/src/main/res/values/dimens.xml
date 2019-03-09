@@ -3,23 +3,22 @@
 
     <!--Activity Main-->
 
-    <!--icone accueil-->
-    <dimen name="margin_start_button_accueil">16dp</dimen>
-    <dimen name="margin_end_button_accueil">16dp</dimen>
-    <dimen name="margin_buttom_button_accueil">16dp</dimen>
-    <dimen name="margin_top_button_accueil">24dp</dimen>
+    <!--icon home-->
+    <dimen name="margin_start_button_home">16dp</dimen>
+    <dimen name="margin_end_button_home">16dp</dimen>
+    <dimen name="margin_bottom_button_home">16dp</dimen>
+    <dimen name="margin_top_button_home">24dp</dimen>
 
 
     <!--activity history-->
 
     <!--text history-->
-    <dimen name="text_history">25sp</dimen>
+    <dimen name="text_history">12sp</dimen>
 
     <!--imagebutton-->
-    <dimen name="margin_end_btn_history_activity">6dip</dimen>
-    <dimen name="margin_top_btn_history_activity">15dip</dimen>
-    <dimen name="size_width">50dip</dimen>
-    <dimen name="size_height">46dip</dimen>
-
+    <dimen name="margin_end_btn_history_activity">3dp</dimen>
+    <dimen name="margin_top_btn_history_activity">28dp</dimen>
+    <dimen name="size_width">20dp</dimen>
+    <dimen name="size_height">18dp</dimen>
 
 </resources>

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--3.2_HVGA mdpi-->
+
     <!--Activity Main-->
 
-    <!--icone accueil-->
-    <dimen name="margin_start_button_accueil">16dp</dimen>
-    <dimen name="margin_end_button_accueil">16dp</dimen>
-    <dimen name="margin_buttom_button_accueil">16dp</dimen>
-    <dimen name="margin_top_button_accueil">24dp</dimen>
+    <!--icon home-->
+    <dimen name="margin_start_button_home">16dp</dimen>
+    <dimen name="margin_end_button_home">16dp</dimen>
+    <dimen name="margin_bottom_button_home">16dp</dimen>
+    <dimen name="margin_top_button_home">24dp</dimen>
 
 
     <!--activity history-->
 
     <!--text history-->
-    <dimen name="text_history">12sp</dimen>
+    <dimen name="text_history">11sp</dimen>
 
     <!--imagebutton-->
     <dimen name="margin_end_btn_history_activity">2dip</dimen>

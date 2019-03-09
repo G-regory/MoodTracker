@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private final String MAUVAISE_HUMEUR = "Mauvaise humeur";
     private  final String TRES_MAUVAISE_HUMEUR = "Très mauvaise humeur";
     private final String SHARED_COUNTMOOD="mCountMood";
-    private final String SHARED_COMMENT="mComment";
 
     //*********Views**************
     private ImageView mImageViewSmiley;
@@ -246,13 +245,13 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     }
 
     /**
-     * button share mood of day with other friend
-     * @param view
+     * button share mood of day with other person
+     * @param view button share
      */
     public void shareButton(View view) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        String mood=mMood;
+        String mood=mMood;  //recovers mood and inserts into the variable mood
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sentence_share_mood)+mood);
         startActivity(Intent.createChooser(shareIntent, getString(R.string.title_share_mood)));
     }

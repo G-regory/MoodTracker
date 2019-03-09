@@ -15,5 +15,5 @@
     <string name="entrer_commentaire">Entrer un comment</string>
     <string name="commentaire_titre">Commentaire</string>
     <string name="sentence_share_mood">Hello, voici mon humeur que je te partage via ma super application MoodTracker: </string>
-    <string name="title_share_mood">Partage mon humeur du jour</string>
+    <string name="title_share_mood">Partager votre humeur du jour</string>
 </resources>
